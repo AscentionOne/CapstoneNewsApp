@@ -1,8 +1,5 @@
 <resources>
     <string name="app_name">CapstoneNewsApp</string>
-    <string name="article_title_1">TextView</string>
-    <string name="article_title_2">TextView</string>
-    <string name="article_title_3">TextView</string>
-    <string name="article_title_4">TextView</string>
-    <string name="article_title_5">TextView</string>
+    <string name="article_title">Title: %1$s, Author: %2$s, SourceName:
+        %3$s</string>
 </resources>

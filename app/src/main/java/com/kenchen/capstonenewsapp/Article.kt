@@ -5,7 +5,7 @@ package com.kenchen.capstonenewsapp
 * */
 data class Article(
     val source: Source,
-    val author: String? = null,
+    val author: String?,
     val title: String,
     val description: String? = null,
     val url: String,

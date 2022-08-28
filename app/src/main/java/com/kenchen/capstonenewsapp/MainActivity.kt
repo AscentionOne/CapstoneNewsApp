@@ -2,6 +2,8 @@ package com.kenchen.capstonenewsapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.children
 import com.kenchen.capstonenewsapp.databinding.ActivityMainBinding
 
@@ -14,9 +16,27 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+        updateNewsTextView(view)
     }
 
-    val newsList = mapOf(
+    // update the news textView text
+    private fun updateNewsTextView(view: ConstraintLayout) {
+        val mainGroup = view.children
+        var newsCount = 1 // index in newList map start at 1
+        for (i in mainGroup) {
+            if (i is TextView) {
+                val news = newsList[newsCount]
+                if (news != null) {
+                    i.text = getString(R.string.article_title, news.title,
+                        news.author, news.source.name)
+                }
+                newsCount++
+            }
+        }
+    }
+
+    // dummy news data
+    private val newsList = mapOf(
         1 to Article(
             source = Source("bbc-news", "BBC News"),
             author = "BBC News",

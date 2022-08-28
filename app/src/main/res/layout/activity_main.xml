@@ -10,7 +10,7 @@
         android:id="@+id/titleTextView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/article_title_1"
+        android:text="@string/article_title"
         app:layout_constraintBottom_toTopOf="@+id/titleTextView2"
         app:layout_constraintStart_toStartOf="@+id/titleTextView2"
         app:layout_constraintTop_toTopOf="parent"
@@ -21,7 +21,7 @@
         android:id="@+id/titleTextView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/article_title_2"
+        android:text="@string/article_title"
         app:layout_constraintBottom_toTopOf="@+id/titleTextView3"
         app:layout_constraintStart_toStartOf="@+id/titleTextView3"
         app:layout_constraintTop_toBottomOf="@+id/titleTextView1" />
@@ -30,7 +30,7 @@
         android:id="@+id/titleTextView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/article_title_3"
+        android:text="@string/article_title"
         app:layout_constraintBottom_toTopOf="@+id/titleTextView4"
         app:layout_constraintStart_toStartOf="@+id/titleTextView4"
         app:layout_constraintTop_toBottomOf="@+id/titleTextView2" />
@@ -39,7 +39,7 @@
         android:id="@+id/titleTextView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/article_title_4"
+        android:text="@string/article_title"
         app:layout_constraintBottom_toTopOf="@+id/titleTextView5"
         app:layout_constraintStart_toStartOf="@+id/titleTextView5"
         app:layout_constraintTop_toBottomOf="@+id/titleTextView3" />
@@ -48,7 +48,7 @@
         android:id="@+id/titleTextView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/article_title_5"
+        android:text="@string/article_title"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleTextView4" />
