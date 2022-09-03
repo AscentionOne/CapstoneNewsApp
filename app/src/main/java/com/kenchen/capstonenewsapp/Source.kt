@@ -8,7 +8,7 @@ data class Source(
     val name: String,
     val description: String? = null,
     val url: String? = null,
-    val category: String? = null,
-    val language: String? = null,
-    val country: String? = null,
+    val category: Category? = null,
+    val language: Language? = null,
+    val country: Country? = null,
 )
