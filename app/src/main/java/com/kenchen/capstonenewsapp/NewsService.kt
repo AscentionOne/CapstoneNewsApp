@@ -47,7 +47,8 @@ class NewsService {
         ),
         5 to Article(
             source = Source("cnn", "CNN"),
-            author = "Eyad Kourdi, CNN",
+            author = null,
+//            author = "Eyad Kourdi, CNN",
             title = "At least 23 people dead, 140 injured in violent clashes between rival militias in Libyan capital of Tripoli - CNN",
             description = "At least 23 people have died and 140 been injured in violent clashes between rival Libyan militias across the country's capital of Tripoli, the Libyan Ministry of Health said Saturday.",
             url = "https://www.cnn.com/2022/08/27/world/violent-clashes-rival-militias-libya/index.html",

@@ -1,12 +1,9 @@
 package com.kenchen.capstonenewsapp
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.children
+import androidx.appcompat.app.AppCompatActivity
 import com.kenchen.capstonenewsapp.databinding.ActivityMainBinding
-import com.kenchen.capstonenewsapp.databinding.ArticleViewBinding
+import com.kenchen.capstonenewsapp.views.ArticleView
 
 class MainActivity : AppCompatActivity() {
     // using view binding
@@ -26,10 +23,14 @@ class MainActivity : AppCompatActivity() {
         val dummyNews = mockNewsService.getDummyNews()
 
         dummyNews.forEach { newsArticle ->
-            ArticleViewBinding.inflate(layoutInflater, binding.newsContainer, true).apply {
-                titleTextView.text = getString(R.string.news_title, newsArticle.value.title)
-                authorTextView.text = getString(R.string.news_author, newsArticle.value.author)
-            }
+//            ArticleViewBinding.inflate(layoutInflater, binding.newsContainer, true).apply {
+//                titleTextView.text = getString(R.string.news_title, newsArticle.value.title)
+//                authorTextView.text = getString(R.string.news_author, newsArticle.value.author)
+//            }
+            val articleView = ArticleView(this)
+            articleView.setTitleText(newsArticle.value.title)
+            articleView.setAuthorText(newsArticle.value.author)
+            binding.newsContainer.addView(articleView)
         }
     }
 }
