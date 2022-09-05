@@ -7,8 +7,8 @@ class InMemoryNewsServiceImpl : NewsService {
     fun getDummyNews() = newsList
 
     // dummy news data
-    private val newsList = mapOf(
-        1 to Article(
+    private val newsList = arrayListOf<Article?>(
+        Article(
             source = Source("bbc-news", "BBC News"),
             author = "BBC News",
             title = "Pakistan floods: Thousands told to evacuate as rivers rise",
@@ -18,7 +18,7 @@ class InMemoryNewsServiceImpl : NewsService {
             publishedAt = "2022-08-27T13:07:17.6026971Z",
             content = "Media caption, Watch: Millions affected by heavy flooding in Pakistan\r\nThousands of people who live in areas under threat of flooding in some parts of Pakistan have been told to evacuate. \r\nAid agenc… [+2491 chars]",
         ),
-        2 to Article(
+        Article(
             source = Source(name = "Saarbruecker-zeitung.de"),
             author = "Eliran Kendi",
             title = "Tankrabatt: In Frankreich können deutsche Autofahrer bis zu 30 Euro sparen - Saarbrücker Zeitung",
@@ -28,7 +28,7 @@ class InMemoryNewsServiceImpl : NewsService {
             publishedAt = "2022-08-27T21:05:01Z",
             content = "27. August 2022 um 10:58 Uhr\\r\\nSpritpreise ab September\\r\\n :\\r\\n Tankrabatt in Frankreich ADAC-Experte verrät: So viel können Tanktouristen sparen\\r\\nSaarbrückenZum 1. September läuft der Tankrabatt in Deu… [+3917 chars]",
         ),
-        3 to Article(
+        Article(
             source = Source("the-washington-post", "The Washington Post"),
             author = "Annie Linskey, Michael Scherer",
             title = "Democrats improve outlook on House amid better political environment - The Washington Post",
@@ -38,7 +38,7 @@ class InMemoryNewsServiceImpl : NewsService {
             publishedAt = "2022-08-28T00:23:30Z",
             content = "Comment on this story\\r\\nDemocrats are voicing growing confidence about limiting losses in the House and potentially even salvaging their majority in the midterm elections, with candidates and allied g… [+14030 chars]",
         ),
-        4 to Article(
+        Article(
             source = Source(name = "Daytona Beach News-Journal"),
             author = "Ken Willis, Daytona Beach News-Journal Online",
             title = "Live updates from Coke Zero 400 NASCAR race, results at Daytona - Daytona Beach News-Journal",
@@ -48,7 +48,7 @@ class InMemoryNewsServiceImpl : NewsService {
             publishedAt = "2022-08-28T00:11:15Z",
             content = "It's always the last few laps, and the inevitable crashes at Daytona International Speedway, that help determine who gets the checkered flag.\\r\\nBut you have to race all 160 laps of the Coke Zero Sugar… [+4635 chars]",
         ),
-        5 to Article(
+        Article(
             source = Source("cnn", "CNN"),
             author = null,
 //            author = "Eyad Kourdi, CNN",
@@ -58,5 +58,6 @@ class InMemoryNewsServiceImpl : NewsService {
             urlToImage = "\"https://cdn.cnn.com/cnnnext/dam/assets/220827173345-01-tripoli-08272022-super-tease.jpg",
             publishedAt = "2022-08-27T23:38:00Z",
         ),
+        null,
     )
 }

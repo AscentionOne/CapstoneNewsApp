@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
     // show article view
     private fun updateArticleView() {
         val mockNewsService = InMemoryNewsServiceImpl()
-        val dummyNews = mockNewsService.getDummyNews()
+        val dummyNews = mockNewsService.getDummyNews().filterNotNull()
 
         dummyNews.forEach { newsArticle ->
 //            ArticleViewBinding.inflate(layoutInflater, binding.newsContainer, true).apply {
@@ -28,8 +28,8 @@ class MainActivity : AppCompatActivity() {
 //                authorTextView.text = getString(R.string.news_author, newsArticle.value.author)
 //            }
             val articleView = ArticleView(this)
-            articleView.setTitleText(newsArticle.value.title)
-            articleView.setAuthorText(newsArticle.value.author)
+            articleView.setTitleText(newsArticle.title)
+            articleView.setAuthorText(newsArticle.author)
             binding.newsContainer.addView(articleView)
         }
     }
