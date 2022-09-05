@@ -1,6 +1,9 @@
 package com.kenchen.capstonenewsapp
 
-class NewsService {
+interface NewsService {
+}
+
+class InMemoryNewsServiceImpl : NewsService {
     fun getDummyNews() = newsList
 
     // dummy news data

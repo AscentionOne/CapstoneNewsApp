@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
 
     // show article view
     private fun updateArticleView() {
-        val mockNewsService = NewsService()
+        val mockNewsService = InMemoryNewsServiceImpl()
         val dummyNews = mockNewsService.getDummyNews()
 
         dummyNews.forEach { newsArticle ->
