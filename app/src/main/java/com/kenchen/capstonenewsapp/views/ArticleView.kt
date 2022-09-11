@@ -1,11 +1,14 @@
 package com.kenchen.capstonenewsapp.views
 
 import android.content.Context
+import android.nfc.Tag
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.kenchen.capstonenewsapp.R
 import com.kenchen.capstonenewsapp.databinding.ArticleViewBinding
+import kotlin.math.log
 
 class ArticleView @JvmOverloads constructor(
     context: Context,
