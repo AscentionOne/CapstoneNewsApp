@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">CapstoneNewsApp</string>
-    <string name="article_title">Title: %1$s, Author: %2$s, SourceName:
-        %3$s</string>
+    <string name="news_title">Title: %s</string>
+    <string name="news_author">Author: %s</string>
 </resources>
