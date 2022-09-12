@@ -3,9 +3,7 @@ package com.kenchen.capstonenewsapp
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.RecyclerView
 import com.kenchen.capstonenewsapp.databinding.ActivityMainBinding
-import com.kenchen.capstonenewsapp.views.ArticleView
 
 class MainActivity : AppCompatActivity(), NewsListAdaptor.NewsListClickListener {
     // using view binding
@@ -22,8 +20,10 @@ class MainActivity : AppCompatActivity(), NewsListAdaptor.NewsListClickListener 
         val view = binding.root
         setContentView(view)
 
-        val mockNewsService = InMemoryNewsServiceImpl()
+        val mockNewsService = InMemoryNewsServiceImp(this)
         val dummyNews = mockNewsService.getDummyNews().filterNotNull()
+
+        mockNewsService.saveNews()
 
 //        binding.newsListRecyclerview.run {
 //            adapter = NewsListAdaptor(dummyNews, )

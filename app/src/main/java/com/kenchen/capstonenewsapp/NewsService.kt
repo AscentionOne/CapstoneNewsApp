@@ -1,10 +1,28 @@
 package com.kenchen.capstonenewsapp
 
+import android.content.Context
+import android.util.Log
+import androidx.core.content.edit
+import androidx.preference.PreferenceManager
+
 interface NewsService {
 }
 
-class InMemoryNewsServiceImpl : NewsService {
+class InMemoryNewsServiceImp(private val context: Context) : NewsService {
     fun getDummyNews() = newsList
+
+    fun saveNews() {
+        val sharePrefs = PreferenceManager.getDefaultSharedPreferences(context)
+        sharePrefs.edit {
+            newsList.forEachIndexed(){
+                index, article -> putString(index.toString(), article.toString())
+            }
+        }
+    }
+
+    fun show() {
+        Log.i("test",newsList.joinToString())
+    }
 
     // dummy news data
     private val newsList = arrayListOf<Article?>(
