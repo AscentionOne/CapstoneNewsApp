@@ -1,14 +1,20 @@
 package com.kenchen.capstonenewsapp
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.kenchen.capstonenewsapp.databinding.ActivityMainBinding
 import com.kenchen.capstonenewsapp.views.ArticleView
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), NewsListAdaptor.NewsListClickListener {
     // using view binding
     private lateinit var binding: ActivityMainBinding
+
+    companion object {
+        const val INTENT_NEWS_DESCRIPTION_KEY = "newsDescription"
+        const val INTENT_NEWS_TITLE_KEY = "newsTitle"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,11 +25,25 @@ class MainActivity : AppCompatActivity() {
         val mockNewsService = InMemoryNewsServiceImpl()
         val dummyNews = mockNewsService.getDummyNews().filterNotNull()
 
-        binding.newsListRecyclerview.run {
-            adapter = NewsListAdaptor(dummyNews)
-        }
+//        binding.newsListRecyclerview.run {
+//            adapter = NewsListAdaptor(dummyNews, )
+//        }
+
+        val newsListRecyclerview = binding.newsListRecyclerview
+        newsListRecyclerview.adapter = NewsListAdaptor(dummyNews, this)
 
 //        updateArticleView()
+    }
+
+    private fun showNewsDetail(article: Article) {
+        val newsDetail = Intent(this, NewsDetailActivity::class.java)
+        newsDetail.putExtra(INTENT_NEWS_DESCRIPTION_KEY, article.description)
+        newsDetail.putExtra(INTENT_NEWS_TITLE_KEY, article.title)
+        startActivity(newsDetail)
+    }
+
+    override fun newsListClicked(article: Article) {
+        showNewsDetail(article)
     }
 
     // show article view
