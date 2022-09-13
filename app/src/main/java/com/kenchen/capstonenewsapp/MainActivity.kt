@@ -12,6 +12,7 @@ class MainActivity : AppCompatActivity(), NewsListAdaptor.NewsListClickListener 
     companion object {
         const val INTENT_NEWS_DESCRIPTION_KEY = "newsDescription"
         const val INTENT_NEWS_TITLE_KEY = "newsTitle"
+        const val INTENT_NEWS_KEY = "newsParcel"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,6 +40,7 @@ class MainActivity : AppCompatActivity(), NewsListAdaptor.NewsListClickListener 
         val newsDetail = Intent(this, NewsDetailActivity::class.java)
         newsDetail.putExtra(INTENT_NEWS_DESCRIPTION_KEY, article.description)
         newsDetail.putExtra(INTENT_NEWS_TITLE_KEY, article.title)
+        newsDetail.putExtra(INTENT_NEWS_KEY, article)
         startActivity(newsDetail)
     }
 

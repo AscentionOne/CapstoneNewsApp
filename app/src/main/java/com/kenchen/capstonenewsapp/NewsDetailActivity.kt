@@ -17,6 +17,8 @@ class NewsDetailActivity : AppCompatActivity() {
 
         title = intent.getStringExtra(MainActivity.INTENT_NEWS_TITLE_KEY)
         val description = intent.getStringExtra(MainActivity.INTENT_NEWS_DESCRIPTION_KEY)
-        binding.newsDescriptionTextView.text = description
+//        binding.newsDescriptionTextView.text = description
+        val description2 = intent.getParcelableExtra<Article>(MainActivity.INTENT_NEWS_KEY)!!
+        binding.newsDescriptionTextView.text = description2.description
     }
 }
