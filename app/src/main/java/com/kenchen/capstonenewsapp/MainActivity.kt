@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.kenchen.capstonenewsapp.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity(), NewsListAdaptor.NewsListClickListener {
+class MainActivity : AppCompatActivity(){
     // using view binding
     private lateinit var binding: ActivityMainBinding
 
@@ -26,14 +26,11 @@ class MainActivity : AppCompatActivity(), NewsListAdaptor.NewsListClickListener 
 
         mockNewsService.saveNews()
 
-//        binding.newsListRecyclerview.run {
-//            adapter = NewsListAdaptor(dummyNews, )
-//        }
-
-        val newsListRecyclerview = binding.newsListRecyclerview
-        newsListRecyclerview.adapter = NewsListAdaptor(dummyNews, this)
-
-//        updateArticleView()
+        binding.newsListRecyclerview.run {
+            adapter = NewsListAdaptor(dummyNews) { article ->
+                showNewsDetail(article)
+            }
+        }
     }
 
     private fun showNewsDetail(article: Article) {
@@ -44,9 +41,9 @@ class MainActivity : AppCompatActivity(), NewsListAdaptor.NewsListClickListener 
         startActivity(newsDetail)
     }
 
-    override fun newsListClicked(article: Article) {
-        showNewsDetail(article)
-    }
+//    override fun newsListClicked(article: Article) {
+//        showNewsDetail(article)
+//    }
 
     // show article view
 //    private fun updateArticleView() {
