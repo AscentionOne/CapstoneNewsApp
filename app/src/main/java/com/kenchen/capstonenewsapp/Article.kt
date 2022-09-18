@@ -1,8 +1,12 @@
 package com.kenchen.capstonenewsapp
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
 /*
 * Article data class
 * */
+@Parcelize
 data class Article(
     val source: Source,
     val author: String?,
@@ -12,4 +16,4 @@ data class Article(
     val urlToImage: String? = null,
     val publishedAt: String,
     val content: String? = null,
-)
+) : Parcelable
