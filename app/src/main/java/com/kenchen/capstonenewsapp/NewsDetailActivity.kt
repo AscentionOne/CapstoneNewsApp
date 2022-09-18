@@ -2,8 +2,8 @@ package com.kenchen.capstonenewsapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.kenchen.capstonenewsapp.databinding.ActivityMainBinding
 import com.kenchen.capstonenewsapp.databinding.ActivityNewsDetailBinding
+import com.kenchen.capstonenewsapp.model.Article
 
 class NewsDetailActivity : AppCompatActivity() {
     lateinit var binding: ActivityNewsDetailBinding

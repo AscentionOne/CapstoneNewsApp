@@ -1,4 +1,4 @@
-package com.kenchen.capstonenewsapp
+package com.kenchen.capstonenewsapp.model
 
 enum class Language {
     AR, DE, EN, ES, FR, HE, IT, NL, NO, PT, RU, SV, UD, ZH,

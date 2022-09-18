@@ -1,4 +1,4 @@
-package com.kenchen.capstonenewsapp
+package com.kenchen.capstonenewsapp.model
 
 enum class Category {
     ENTERTAINMENT,

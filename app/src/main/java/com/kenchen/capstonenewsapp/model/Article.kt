@@ -1,6 +1,7 @@
-package com.kenchen.capstonenewsapp
+package com.kenchen.capstonenewsapp.model
 
 import android.os.Parcelable
+import com.kenchen.capstonenewsapp.Source
 import kotlinx.parcelize.Parcelize
 
 /*

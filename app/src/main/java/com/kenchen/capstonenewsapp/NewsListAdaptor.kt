@@ -2,6 +2,7 @@ package com.kenchen.capstonenewsapp
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.kenchen.capstonenewsapp.model.Article
 import com.kenchen.capstonenewsapp.views.ArticleView
 
 class NewsListAdaptor(

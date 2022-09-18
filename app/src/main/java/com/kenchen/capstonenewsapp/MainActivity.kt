@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.kenchen.capstonenewsapp.databinding.ActivityMainBinding
+import com.kenchen.capstonenewsapp.model.Article
 
 class MainActivity : AppCompatActivity(){
     // using view binding
