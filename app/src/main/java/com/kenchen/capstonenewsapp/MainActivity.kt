@@ -36,6 +36,24 @@ class MainActivity : AppCompatActivity() {
 //        mockNewsService.saveNews()
 
         getTopHeadlinesNewsByCountry()
+
+        setUpSwipeToRefresh()
+
+    }
+
+    private fun setUpSwipeToRefresh() {
+        binding.swipeRefreshLayout.run {
+            // set loading indicator color
+            setColorSchemeColors(
+                getColor(R.color.purple_200),
+                getColor(R.color.teal_200),
+            )
+
+            setOnRefreshListener {
+                getTopHeadlinesNewsByCountry()
+                isRefreshing = false // remove the loading indicator
+            }
+        }
     }
 
     private fun showNewsDetail(article: Article) {
@@ -49,8 +67,9 @@ class MainActivity : AppCompatActivity() {
             remoteApi.getTopHeadlinesByCountry("us") { result ->
                 when (result) {
                     is RemoteResult.Success -> {
-                        println(result.value)
-                        onFetchNewsSuccess(result.value)
+                        val data = result.value.shuffled()
+                        onFetchNewsSuccess(data)
+//                        onFetchNewsSuccess(result.value)
                     }
                     is RemoteResult.Failure -> {
                         // return different error message based on the error
