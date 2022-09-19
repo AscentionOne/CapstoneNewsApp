@@ -6,7 +6,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-const val BASE_URL = "https://newsapi.org/v2/"
+const val BASE_URL = "https://newsapi.org/v2"
 const val API_KEY = "7ac9410c8eac436d90d7b8f121b5db36"
 
 class RemoteApi(private val remoteApiService: RemoteApiService) {

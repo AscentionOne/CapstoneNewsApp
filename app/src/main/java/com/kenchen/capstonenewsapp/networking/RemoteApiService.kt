@@ -7,8 +7,7 @@ import retrofit2.http.Query
 
 interface RemoteApiService {
 
-    @GET("/top-headlines")
+    @GET("top-headlines")
     fun getTopHeadlinesByCountry(@Query("country") country: String, @Query("apiKey") apiKey: String):
             Call<GetNewsResponse>
-
 }
