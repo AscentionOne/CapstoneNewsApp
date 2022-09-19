@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.core.content.edit
 import androidx.preference.PreferenceManager
 import com.kenchen.capstonenewsapp.model.Article
+import com.kenchen.capstonenewsapp.model.Source
 
 interface NewsService {
 }
