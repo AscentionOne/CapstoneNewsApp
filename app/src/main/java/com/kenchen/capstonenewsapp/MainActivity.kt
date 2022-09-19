@@ -1,6 +1,5 @@
 package com.kenchen.capstonenewsapp
 
-import android.accounts.NetworkErrorException
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.os.Bundle
@@ -10,7 +9,6 @@ import com.kenchen.capstonenewsapp.model.Article
 import com.kenchen.capstonenewsapp.networking.NetworkStatusChecker
 import com.kenchen.capstonenewsapp.networking.RemoteResult
 import com.kenchen.capstonenewsapp.utils.toast
-import org.json.JSONException
 import java.net.UnknownHostException
 
 class MainActivity : AppCompatActivity() {
@@ -23,9 +21,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val INTENT_NEWS_DESCRIPTION_KEY = "newsDescription"
-        const val INTENT_NEWS_TITLE_KEY = "newsTitle"
-        const val INTENT_NEWS_KEY = "newsParcel"
+        const val INTENT_ARTICLE_KEY = "newsParcel"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,9 +40,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun showNewsDetail(article: Article) {
         val newsDetail = Intent(this, NewsDetailActivity::class.java)
-        newsDetail.putExtra(INTENT_NEWS_DESCRIPTION_KEY, article.description)
-        newsDetail.putExtra(INTENT_NEWS_TITLE_KEY, article.title)
-        newsDetail.putExtra(INTENT_NEWS_KEY, article)
+        newsDetail.putExtra(INTENT_ARTICLE_KEY, article)
         startActivity(newsDetail)
     }
 
