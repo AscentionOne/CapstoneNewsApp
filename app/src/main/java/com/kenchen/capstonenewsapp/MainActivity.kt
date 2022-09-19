@@ -1,14 +1,26 @@
 package com.kenchen.capstonenewsapp
 
+import android.accounts.NetworkErrorException
 import android.content.Intent
+import android.net.ConnectivityManager
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.kenchen.capstonenewsapp.databinding.ActivityMainBinding
 import com.kenchen.capstonenewsapp.model.Article
+import com.kenchen.capstonenewsapp.networking.NetworkStatusChecker
+import com.kenchen.capstonenewsapp.networking.RemoteResult
+import com.kenchen.capstonenewsapp.utils.toast
+import org.json.JSONException
+import java.net.UnknownHostException
 
-class MainActivity : AppCompatActivity(){
+class MainActivity : AppCompatActivity() {
     // using view binding
     private lateinit var binding: ActivityMainBinding
+    private val remoteApi = App.remoteApi
+
+    private val networkStatusChecker by lazy {
+        NetworkStatusChecker(this.getSystemService(ConnectivityManager::class.java))
+    }
 
     companion object {
         const val INTENT_NEWS_DESCRIPTION_KEY = "newsDescription"
@@ -25,13 +37,9 @@ class MainActivity : AppCompatActivity(){
         val mockNewsService = InMemoryNewsServiceImp(this)
         val dummyNews = mockNewsService.getDummyNews().filterNotNull()
 
-        mockNewsService.saveNews()
+//        mockNewsService.saveNews()
 
-        binding.newsListRecyclerview.run {
-            adapter = NewsListAdaptor(dummyNews) { article ->
-                showNewsDetail(article)
-            }
-        }
+        getTopHeadlinesNewsByCountry()
     }
 
     private fun showNewsDetail(article: Article) {
@@ -42,24 +50,45 @@ class MainActivity : AppCompatActivity(){
         startActivity(newsDetail)
     }
 
-//    override fun newsListClicked(article: Article) {
-//        showNewsDetail(article)
-//    }
+    private fun getTopHeadlinesNewsByCountry() {
+        networkStatusChecker.performIfConnectedToInternet {
+            remoteApi.getTopHeadlinesByCountry("us") { result ->
+                when (result) {
+                    is RemoteResult.Success -> {
+                        println(result.value)
+                        onFetchNewsSuccess(result.value)
+                    }
+                    is RemoteResult.Failure -> {
+                        // return different error message based on the error
+                        when (result.error) {
+                            is UnknownHostException -> {
+                                onFetchNewsError("Network Error, please check your network")
+                            }
+                            else -> {
+                                onFetchNewsError(result.error.toString())
+                            }
+                        }
 
-    // show article view
-//    private fun updateArticleView() {
-//        val mockNewsService = InMemoryNewsServiceImpl()
-//        val dummyNews = mockNewsService.getDummyNews().filterNotNull()
+                    }
+                }
+            }
+        }
+    }
 
-//        dummyNews.forEach { newsArticle ->
-////            ArticleViewBinding.inflate(layoutInflater, binding.newsContainer, true).apply {
-////                titleTextView.text = getString(R.string.news_title, newsArticle.value.title)
-////                authorTextView.text = getString(R.string.news_author, newsArticle.value.author)
-////            }
-//            val articleView = ArticleView(this)
-//            articleView.setTitleText(newsArticle.title)
-//            articleView.setAuthorText(newsArticle.author)
-//            binding.newsContainer.addView(articleView)
-//        }
-//    }
+    private fun onFetchNewsSuccess(articles: List<Article>) {
+        showNews(articles)
+    }
+
+    private fun showNews(articles: List<Article>) {
+        binding.newsListRecyclerview.run {
+            adapter = NewsListAdaptor(articles) { article ->
+                showNewsDetail(article)
+            }
+        }
+    }
+
+    private fun onFetchNewsError(errorMsg: String) {
+        this.toast(errorMsg)
+    }
+
 }
