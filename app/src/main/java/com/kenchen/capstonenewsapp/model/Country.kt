@@ -1,4 +1,4 @@
-package com.kenchen.capstonenewsapp
+package com.kenchen.capstonenewsapp.model
 
 enum class Country {
     AE, AR, AT, AU, BE, BG, BR, CA, CH, CN, CO, CU, CZ, DE, EG, FR, GB, GR, HK, HU, ID, IE, IL, IN,

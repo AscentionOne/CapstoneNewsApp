@@ -1,18 +1,27 @@
 package com.kenchen.capstonenewsapp
 
 import android.content.Intent
+import android.net.ConnectivityManager
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.kenchen.capstonenewsapp.databinding.ActivityMainBinding
+import com.kenchen.capstonenewsapp.model.Article
+import com.kenchen.capstonenewsapp.networking.NetworkStatusChecker
+import com.kenchen.capstonenewsapp.networking.RemoteResult
+import com.kenchen.capstonenewsapp.utils.toast
+import java.net.UnknownHostException
 
-class MainActivity : AppCompatActivity(){
+class MainActivity : AppCompatActivity() {
     // using view binding
     private lateinit var binding: ActivityMainBinding
+    private val remoteApi = App.remoteApi
+
+    private val networkStatusChecker by lazy {
+        NetworkStatusChecker(this.getSystemService(ConnectivityManager::class.java))
+    }
 
     companion object {
-        const val INTENT_NEWS_DESCRIPTION_KEY = "newsDescription"
-        const val INTENT_NEWS_TITLE_KEY = "newsTitle"
-        const val INTENT_NEWS_KEY = "newsParcel"
+        const val INTENT_ARTICLE_KEY = "newsParcel"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,41 +33,75 @@ class MainActivity : AppCompatActivity(){
         val mockNewsService = InMemoryNewsServiceImp(this)
         val dummyNews = mockNewsService.getDummyNews().filterNotNull()
 
-        mockNewsService.saveNews()
+//        mockNewsService.saveNews()
 
-        binding.newsListRecyclerview.run {
-            adapter = NewsListAdaptor(dummyNews) { article ->
-                showNewsDetail(article)
+        getTopHeadlinesNewsByCountry()
+
+        setUpSwipeToRefresh()
+
+    }
+
+    private fun setUpSwipeToRefresh() {
+        binding.swipeRefreshLayout.run {
+            // set loading indicator color
+            setColorSchemeColors(
+                getColor(R.color.purple_200),
+                getColor(R.color.teal_200),
+            )
+
+            setOnRefreshListener {
+                getTopHeadlinesNewsByCountry()
+                isRefreshing = false // remove the loading indicator
             }
         }
     }
 
     private fun showNewsDetail(article: Article) {
         val newsDetail = Intent(this, NewsDetailActivity::class.java)
-        newsDetail.putExtra(INTENT_NEWS_DESCRIPTION_KEY, article.description)
-        newsDetail.putExtra(INTENT_NEWS_TITLE_KEY, article.title)
-        newsDetail.putExtra(INTENT_NEWS_KEY, article)
+        newsDetail.putExtra(INTENT_ARTICLE_KEY, article)
         startActivity(newsDetail)
     }
 
-//    override fun newsListClicked(article: Article) {
-//        showNewsDetail(article)
-//    }
+    private fun getTopHeadlinesNewsByCountry() {
+        networkStatusChecker.performIfConnectedToInternet {
+            remoteApi.getTopHeadlinesByCountry("us") { result ->
+                when (result) {
+                    is RemoteResult.Success -> {
+                        val data = result.value.shuffled()
+                        onFetchNewsSuccess(data)
+//                        onFetchNewsSuccess(result.value)
+                    }
+                    is RemoteResult.Failure -> {
+                        // return different error message based on the error
+                        when (result.error) {
+                            is UnknownHostException -> {
+                                onFetchNewsError("Network Error, please check your network")
+                            }
+                            else -> {
+                                onFetchNewsError(result.error.toString())
+                            }
+                        }
 
-    // show article view
-//    private fun updateArticleView() {
-//        val mockNewsService = InMemoryNewsServiceImpl()
-//        val dummyNews = mockNewsService.getDummyNews().filterNotNull()
+                    }
+                }
+            }
+        }
+    }
 
-//        dummyNews.forEach { newsArticle ->
-////            ArticleViewBinding.inflate(layoutInflater, binding.newsContainer, true).apply {
-////                titleTextView.text = getString(R.string.news_title, newsArticle.value.title)
-////                authorTextView.text = getString(R.string.news_author, newsArticle.value.author)
-////            }
-//            val articleView = ArticleView(this)
-//            articleView.setTitleText(newsArticle.title)
-//            articleView.setAuthorText(newsArticle.author)
-//            binding.newsContainer.addView(articleView)
-//        }
-//    }
+    private fun onFetchNewsSuccess(articles: List<Article>) {
+        showNews(articles)
+    }
+
+    private fun showNews(articles: List<Article>) {
+        binding.newsListRecyclerview.run {
+            adapter = NewsListAdaptor(articles) { article ->
+                showNewsDetail(article)
+            }
+        }
+    }
+
+    private fun onFetchNewsError(errorMsg: String) {
+        this.toast(errorMsg)
+    }
+
 }

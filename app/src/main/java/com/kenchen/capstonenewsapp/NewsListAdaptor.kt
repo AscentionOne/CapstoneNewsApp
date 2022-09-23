@@ -2,15 +2,13 @@ package com.kenchen.capstonenewsapp
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.kenchen.capstonenewsapp.model.Article
 import com.kenchen.capstonenewsapp.views.ArticleView
 
 class NewsListAdaptor(
-    private var newsList: List<Article>,
-    val onArticleClicked: (Article) ->
-    Unit,
-) :
-    RecyclerView
-    .Adapter<NewsListViewHolder>() {
+    private var articles: List<Article>,
+    val onArticleClicked: (Article) -> Unit,
+) : RecyclerView.Adapter<NewsListViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsListViewHolder {
         val articleView = ArticleView(parent.context)
@@ -22,13 +20,13 @@ class NewsListAdaptor(
     }
 
     override fun onBindViewHolder(holder: NewsListViewHolder, position: Int) {
-        holder.bindData(newsList[position])
+        holder.bindData(articles[position])
         holder.itemView.setOnClickListener {
-            onArticleClicked(newsList[position])
+            onArticleClicked(articles[position])
         }
     }
 
     override fun getItemCount(): Int {
-        return newsList.size
+        return articles.size
     }
 }
