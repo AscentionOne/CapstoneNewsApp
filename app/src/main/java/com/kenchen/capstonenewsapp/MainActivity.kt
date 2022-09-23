@@ -6,7 +6,9 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.kenchen.capstonenewsapp.databinding.ActivityMainBinding
 import com.kenchen.capstonenewsapp.model.Article
+import com.kenchen.capstonenewsapp.networking.CustomException
 import com.kenchen.capstonenewsapp.networking.NetworkStatusChecker
+import com.kenchen.capstonenewsapp.networking.RemoteError
 import com.kenchen.capstonenewsapp.networking.RemoteResult
 import com.kenchen.capstonenewsapp.utils.toast
 import java.net.UnknownHostException
@@ -38,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         getTopHeadlinesNewsByCountry()
 
         setUpSwipeToRefresh()
-
+ 
     }
 
     private fun setUpSwipeToRefresh() {
@@ -74,11 +76,11 @@ class MainActivity : AppCompatActivity() {
                     is RemoteResult.Failure -> {
                         // return different error message based on the error
                         when (result.error) {
-                            is UnknownHostException -> {
-                                onFetchNewsError("Network Error, please check your network")
+                            is RemoteError.UnAuthorized -> {
+                                onFetchNewsError(result.error.message)
                             }
                             else -> {
-                                onFetchNewsError(result.error.toString())
+                                onFetchNewsError(result.error.message.toString())
                             }
                         }
 
