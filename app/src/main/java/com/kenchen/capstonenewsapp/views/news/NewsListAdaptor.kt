@@ -1,9 +1,8 @@
-package com.kenchen.capstonenewsapp
+package com.kenchen.capstonenewsapp.views.news
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.kenchen.capstonenewsapp.model.Article
-import com.kenchen.capstonenewsapp.views.ArticleView
 
 class NewsListAdaptor(
     private var articles: List<Article>,

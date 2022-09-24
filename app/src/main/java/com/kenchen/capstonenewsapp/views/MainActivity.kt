@@ -1,17 +1,20 @@
-package com.kenchen.capstonenewsapp
+package com.kenchen.capstonenewsapp.views
 
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.kenchen.capstonenewsapp.App
+import com.kenchen.capstonenewsapp.InMemoryNewsServiceImp
+import com.kenchen.capstonenewsapp.R
 import com.kenchen.capstonenewsapp.databinding.ActivityMainBinding
 import com.kenchen.capstonenewsapp.model.Article
-import com.kenchen.capstonenewsapp.networking.CustomException
 import com.kenchen.capstonenewsapp.networking.NetworkStatusChecker
 import com.kenchen.capstonenewsapp.networking.RemoteError
 import com.kenchen.capstonenewsapp.networking.RemoteResult
 import com.kenchen.capstonenewsapp.utils.toast
-import java.net.UnknownHostException
+import com.kenchen.capstonenewsapp.views.news.NewsListAdaptor
+import com.kenchen.capstonenewsapp.views.newsdetails.NewsDetailActivity
 
 class MainActivity : AppCompatActivity() {
     // using view binding

@@ -1,4 +1,4 @@
-package com.kenchen.capstonenewsapp.views
+package com.kenchen.capstonenewsapp.views.news
 
 import android.content.Context
 import android.nfc.Tag
