@@ -3,9 +3,11 @@ package com.kenchen.capstonenewsapp.views
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.kenchen.capstonenewsapp.App
-import com.kenchen.capstonenewsapp.InMemoryNewsServiceImp
 import com.kenchen.capstonenewsapp.R
 import com.kenchen.capstonenewsapp.databinding.ActivityMainBinding
 import com.kenchen.capstonenewsapp.model.Article
@@ -14,12 +16,15 @@ import com.kenchen.capstonenewsapp.networking.RemoteError
 import com.kenchen.capstonenewsapp.networking.RemoteResult
 import com.kenchen.capstonenewsapp.utils.toast
 import com.kenchen.capstonenewsapp.views.news.NewsListAdaptor
+import com.kenchen.capstonenewsapp.views.news.NewsViewModel
 import com.kenchen.capstonenewsapp.views.newsdetails.NewsDetailActivity
 
 class MainActivity : AppCompatActivity() {
     // using view binding
     private lateinit var binding: ActivityMainBinding
     private val remoteApi = App.remoteApi
+
+    private lateinit var newsViewModel: NewsViewModel
 
     private val networkStatusChecker by lazy {
         NetworkStatusChecker(this.getSystemService(ConnectivityManager::class.java))
@@ -35,15 +40,10 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        val mockNewsService = InMemoryNewsServiceImp(this)
-        val dummyNews = mockNewsService.getDummyNews().filterNotNull()
-
-//        mockNewsService.saveNews()
-
-        getTopHeadlinesNewsByCountry()
-
+        newsViewModel = ViewModelProvider(this).get(NewsViewModel::class.java)
+        initialiseObservers()
         setUpSwipeToRefresh()
- 
+        newsViewModel.getTopHeadlinesNewsByCountry()
     }
 
     private fun setUpSwipeToRefresh() {
@@ -55,7 +55,8 @@ class MainActivity : AppCompatActivity() {
             )
 
             setOnRefreshListener {
-                getTopHeadlinesNewsByCountry()
+                newsViewModel.getTopHeadlinesNewsByCountry()
+                Log.d("Debug", "Refresh")
                 isRefreshing = false // remove the loading indicator
             }
         }
@@ -67,34 +68,18 @@ class MainActivity : AppCompatActivity() {
         startActivity(newsDetail)
     }
 
-    private fun getTopHeadlinesNewsByCountry() {
-        networkStatusChecker.performIfConnectedToInternet {
-            remoteApi.getTopHeadlinesByCountry("us") { result ->
-                when (result) {
-                    is RemoteResult.Success -> {
-                        val data = result.value.shuffled()
-                        onFetchNewsSuccess(data)
-//                        onFetchNewsSuccess(result.value)
+    private fun initialiseObservers() {
+        newsViewModel.headLineNewsLiveData.observe(this) { result ->
+            when (result) {
+                is RemoteResult.Success -> showNews(result.value)
+                is RemoteResult.Failure -> showError(
+                    when (result.error) {
+                        is RemoteError.ApiException -> result.error.statusCode
+                        else -> result.error.message
                     }
-                    is RemoteResult.Failure -> {
-                        // return different error message based on the error
-                        when (result.error) {
-                            is RemoteError.UnAuthorized -> {
-                                onFetchNewsError(result.error.message)
-                            }
-                            else -> {
-                                onFetchNewsError(result.error.message.toString())
-                            }
-                        }
-
-                    }
-                }
+                )
             }
         }
-    }
-
-    private fun onFetchNewsSuccess(articles: List<Article>) {
-        showNews(articles)
     }
 
     private fun showNews(articles: List<Article>) {
@@ -105,8 +90,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun onFetchNewsError(errorMsg: String) {
+    private fun showError(errorMsg: String) {
         this.toast(errorMsg)
     }
 
 }
+
+// TODO: 1. add ViewModel 2. add LiveData 3. Add Coroutine
