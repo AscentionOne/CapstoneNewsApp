@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         newsViewModel = ViewModelProvider(this).get(NewsViewModel::class.java)
         initialiseObservers()
         setUpSwipeToRefresh()
-        newsViewModel.getTopHeadlinesNewsByCountry()
+        newsViewModel.onActivityReady()
     }
 
     // set up swipe to refresh
@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity() {
             )
 
             setOnRefreshListener {
-                newsViewModel.getTopHeadlinesNewsByCountry()
+                newsViewModel.refreshNews()
                 Log.d("Debug", "Refresh")
                 isRefreshing = false // remove the loading indicator
             }

@@ -16,10 +16,23 @@ class NewsViewModel : ViewModel() {
     private val _headLineNewsLiveData = MutableLiveData<RemoteResult<List<Article>>>()
     val headLineNewsLiveData: LiveData<RemoteResult<List<Article>>> = _headLineNewsLiveData
 
+    private val test = MutableLiveData<List<String>>()
+
     private val _newsLoadingStateLiveData = MutableLiveData<NewsLoadingState>()
     val newsLoadingStateLiveData: LiveData<NewsLoadingState> = _newsLoadingStateLiveData
 
-    fun getTopHeadlinesNewsByCountry() {
+    fun onActivityReady() {
+        // prevent refetching data when orientation changes (save resource)
+        if (_headLineNewsLiveData.value == null) {
+            getTopHeadlinesNewsByCountry()
+        }
+    }
+
+    fun refreshNews() {
+        getTopHeadlinesNewsByCountry()
+    }
+
+    private fun getTopHeadlinesNewsByCountry() {
         _newsLoadingStateLiveData.value = NewsLoadingState.LOADING
         viewModelScope.launch(Dispatchers.IO) {
             try {
@@ -34,8 +47,6 @@ class NewsViewModel : ViewModel() {
                 _newsLoadingStateLiveData.postValue(NewsLoadingState.ERROR)
                 _headLineNewsLiveData.postValue(RemoteResult.Failure(mapException(error)))
             }
-
         }
-
     }
 }
