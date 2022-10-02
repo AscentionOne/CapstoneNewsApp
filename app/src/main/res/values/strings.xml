@@ -2,4 +2,5 @@
     <string name="app_name">CapstoneNewsApp</string>
     <string name="news_title">Title: %s</string>
     <string name="news_author">Author: %s</string>
+    <string name="news_loading_error_message">Some thing went wrong! Swipe and try again!</string>
 </resources>

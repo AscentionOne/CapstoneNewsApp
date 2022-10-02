@@ -1,7 +1,8 @@
-package com.kenchen.capstonenewsapp
+package com.kenchen.capstonenewsapp.views.newsdetails
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.kenchen.capstonenewsapp.views.MainActivity
 import com.kenchen.capstonenewsapp.databinding.ActivityNewsDetailBinding
 import com.kenchen.capstonenewsapp.model.Article
 
