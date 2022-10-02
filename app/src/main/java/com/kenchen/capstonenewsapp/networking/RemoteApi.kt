@@ -13,15 +13,11 @@ class RemoteApi(private val remoteApiService: RemoteApiService) {
 
     /**
      * get top headlines news by country code with Coroutine (suspend)
+     * If there is an error it will be caught in ViewModel
      * */
-    suspend fun getTopHeadlinesByCountry(countryCode: String): List<Article> =
-        try {
-            val data = remoteApiService.getTopHeadlinesByCountry(countryCode, API_KEY)
-            val shuffledNews = data.articles.shuffled()
-            shuffledNews
-//            RemoteResult.Success(data.articles)
-        } catch (error: Exception) {
-            throw error
-        }
+    suspend fun getTopHeadlinesByCountry(countryCode: String): List<Article> {
+        val data = remoteApiService.getTopHeadlinesByCountry(countryCode, API_KEY)
+        return data.articles.shuffled()
+    }
 
 }
