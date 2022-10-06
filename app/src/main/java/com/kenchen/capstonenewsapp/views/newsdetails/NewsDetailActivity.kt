@@ -1,7 +1,6 @@
 package com.kenchen.capstonenewsapp.views.newsdetails
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.work.*
@@ -12,7 +11,6 @@ import com.kenchen.capstonenewsapp.views.MainActivity
 import com.kenchen.capstonenewsapp.worker.DownloadWorker
 import com.kenchen.capstonenewsapp.worker.FileClearWorker
 import com.kenchen.capstonenewsapp.worker.SepiaFilterWorker
-import java.io.File
 
 class NewsDetailActivity : AppCompatActivity() {
     lateinit var binding: ActivityNewsDetailBinding
