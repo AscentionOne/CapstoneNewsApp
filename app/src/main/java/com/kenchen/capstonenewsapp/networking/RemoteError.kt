@@ -10,7 +10,7 @@ sealed class RemoteError(override val message: String) : Exception() {
 //    data class ResourceNotFound(override val message: String) : RemoteError(message)
 //    // > 500
 //    data class InternalServerError(override val message: String) : RemoteError(message)
-    data class ApiException(val statusCode: String) : RemoteError(statusCode)
+    data class ApiException(override val message: String) : RemoteError(message)
     data class NoInternetException(override val message: String) : RemoteError(message)
     data class UnexpectedException(override val message: String) : RemoteError(message)
 }

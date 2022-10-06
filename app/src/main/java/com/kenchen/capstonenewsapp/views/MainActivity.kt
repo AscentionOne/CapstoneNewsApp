@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity() {
                 is RemoteResult.Success -> showNews(result.value)
                 is RemoteResult.Failure -> showError(
                     when (result.error) {
-                        is RemoteError.ApiException -> result.error.statusCode
+                        is RemoteError.ApiException -> result.error.message
                         else -> result.error.message
                     }
                 )

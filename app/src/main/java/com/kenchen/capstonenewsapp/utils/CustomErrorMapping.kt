@@ -10,7 +10,7 @@ import retrofit2.HttpException
     return when (remoteException) {
         is IOException -> RemoteError.NoInternetException("Please check your connection")
         is HttpException -> RemoteError.ApiException(mapHttpExceptionMessage(remoteException
-            .code().toInt()))
+            .code()))
         else -> RemoteError.UnexpectedException("Unexpected Error")
     }
 }
