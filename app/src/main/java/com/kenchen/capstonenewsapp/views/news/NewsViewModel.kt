@@ -1,21 +1,58 @@
 package com.kenchen.capstonenewsapp.views.news
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.kenchen.capstonenewsapp.App.Companion.remoteApi
 import com.kenchen.capstonenewsapp.model.Article
 import com.kenchen.capstonenewsapp.networking.RemoteResult
+import com.kenchen.capstonenewsapp.repository.NewsRepository
 import com.kenchen.capstonenewsapp.utils.mapException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
-class NewsViewModel : ViewModel() {
+class NewsViewModel(
+    private val newsRepo: NewsRepository,
+) : ViewModel() {
+
+    class Factory(
+        private val newsRepo: NewsRepository,
+    ) : ViewModelProvider.Factory {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return NewsViewModel(newsRepo) as T
+        }
+    }
 
     private val _headLineNewsLiveData = MutableLiveData<RemoteResult<List<Article>>>()
     val headLineNewsLiveData: LiveData<RemoteResult<List<Article>>> = _headLineNewsLiveData
+
+    init {
+        viewModelScope.launch(Dispatchers.IO) {
+            newsRepo.getArticles().onEach { articles ->
+                _headLineNewsLiveData.postValue(articles)
+            }.collect()
+        }
+    }
+
+    // get news articles liveData from Flow
+//    val headLineNewsLiveData: LiveData<RemoteResult<List<Article>>> = newsRepo
+//        .getArticles().asLiveData()
+
+    fun searchArticles(search: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val filteredArticle = newsRepo.searchArticles("%$search%")
+            _headLineNewsLiveData.postValue(RemoteResult.Success(filteredArticle))
+        }
+    }
+
+    fun toggleDataUsage() {
+        viewModelScope.launch(Dispatchers.IO) {
+            newsRepo.toggleDataUsage()
+        }
+
+    }
+
     private var job: Job? = null
 
     private val _newsLoadingStateLiveData = MutableLiveData<NewsLoadingState>()
@@ -64,5 +101,6 @@ class NewsViewModel : ViewModel() {
                 _headLineNewsLiveData.postValue(RemoteResult.Failure(mapException(error)))
             }
         }
+
     }
 }
