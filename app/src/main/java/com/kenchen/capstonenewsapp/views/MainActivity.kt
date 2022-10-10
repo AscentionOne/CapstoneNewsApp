@@ -4,8 +4,11 @@ import android.content.Intent
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
+import androidx.appcompat.widget.SearchView
 import com.kenchen.capstonenewsapp.App
 import com.kenchen.capstonenewsapp.R
 import com.kenchen.capstonenewsapp.databinding.ActivityMainBinding
@@ -26,7 +29,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val remoteApi = App.remoteApi
 
-    private lateinit var newsViewModel: NewsViewModel
+    private val newsViewModel: NewsViewModel by viewModels {
+        NewsViewModel.Factory(App.newsRepository)
+    }
+
+    private var isDataUsage = false
 
     private val networkStatusChecker by lazy {
         NetworkStatusChecker(this.getSystemService(ConnectivityManager::class.java))
@@ -42,27 +49,43 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        newsViewModel = ViewModelProvider(this).get(NewsViewModel::class.java)
+        val queryTextListener = object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                // search is done on text changes
+                return true
+            }
+
+            override fun onQueryTextChange(text: String?): Boolean {
+                text?.let { searchQuery ->
+                    newsViewModel.searchArticles(searchQuery)
+                }
+                return true
+            }
+        }
+
+        binding.searchView.setOnQueryTextListener(queryTextListener)
+
+//        newsViewModel = ViewModelProvider(this).get(NewsViewModel::class.java)
         initialiseObservers()
-        setUpSwipeToRefresh()
-        newsViewModel.onActivityReady()
+//        setUpSwipeToRefresh()
+//        newsViewModel.onActivityReady()
     }
 
     // set up swipe to refresh
     private fun setUpSwipeToRefresh() {
-        binding.swipeRefreshLayout.run {
-            // set loading indicator color
-            setColorSchemeColors(
-                getColor(R.color.purple_200),
-                getColor(R.color.teal_200),
-            )
-
-            setOnRefreshListener {
-                newsViewModel.refreshNews()
-                Log.d("Debug", "Refresh")
-                isRefreshing = false // remove the loading indicator
-            }
-        }
+//        binding.swipeRefreshLayout.run {
+//            // set loading indicator color
+//            setColorSchemeColors(
+//                getColor(R.color.purple_200),
+//                getColor(R.color.teal_200),
+//            )
+//
+//            setOnRefreshListener {
+//                newsViewModel.refreshNews()
+//                Log.d("Debug", "Refresh")
+//                isRefreshing = false // remove the loading indicator
+//            }
+//        }
     }
 
     // navigate to news detail activity
@@ -73,9 +96,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initialiseObservers() {
+        Log.d("Debug", "123")
         newsViewModel.headLineNewsLiveData.observe(this) { result ->
             when (result) {
-                is RemoteResult.Success -> showNews(result.value)
+                is RemoteResult.Success -> {
+                    // TODO: show loading indicator
+                    showNews(result.value)
+                }
                 is RemoteResult.Failure -> showError(
                     when (result.error) {
                         is RemoteError.ApiException -> result.error.message
@@ -85,9 +112,9 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        newsViewModel.newsLoadingStateLiveData.observe(this) { state ->
-            onNewsLoadingStateChanged(state)
-        }
+//        newsViewModel.newsLoadingStateLiveData.observe(this) { state ->
+//            onNewsLoadingStateChanged(state)
+//        }
     }
 
     // show news in recycler view
@@ -123,6 +150,24 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-}
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_activity_main, menu)
+        return true
+    }
 
-// TODO: 1. add ViewModel 2. add LiveData 3. Add Coroutine
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.has_wifi) {
+            newsViewModel.toggleDataUsage()
+        }
+        return true
+    }
+
+//    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+//        if (isDataUsage) {
+//            menu?.findItem(R.id.has_wifi)?.setIcon(R.drawable.ic_baseline_wifi_24)
+//        } else {
+//            menu?.findItem(R.id.has_wifi)?.setIcon(R.drawable.ic_baseline_wifi_off_24)
+//        }
+//        return true
+//    }
+}
