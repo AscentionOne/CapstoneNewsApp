@@ -1,7 +1,6 @@
 package com.kenchen.capstonenewsapp.views
 
 import android.content.Intent
-import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -13,9 +12,8 @@ import com.kenchen.capstonenewsapp.App
 import com.kenchen.capstonenewsapp.R
 import com.kenchen.capstonenewsapp.databinding.ActivityMainBinding
 import com.kenchen.capstonenewsapp.model.Article
-import com.kenchen.capstonenewsapp.networking.NetworkStatusChecker
+import com.kenchen.capstonenewsapp.model.ArticleState
 import com.kenchen.capstonenewsapp.networking.RemoteError
-import com.kenchen.capstonenewsapp.networking.RemoteResult
 import com.kenchen.capstonenewsapp.utils.gone
 import com.kenchen.capstonenewsapp.utils.toast
 import com.kenchen.capstonenewsapp.utils.visible
@@ -27,7 +25,6 @@ import com.kenchen.capstonenewsapp.views.newsdetails.NewsDetailActivity
 class MainActivity : AppCompatActivity() {
     // using view binding
     private lateinit var binding: ActivityMainBinding
-    private val remoteApi = App.remoteApi
 
     private val newsViewModel: NewsViewModel by viewModels {
         NewsViewModel.Factory(App.newsRepository)
@@ -35,8 +32,8 @@ class MainActivity : AppCompatActivity() {
 
     private var isDataUsage = false
 
-    private val networkStatusChecker by lazy {
-        NetworkStatusChecker(this.getSystemService(ConnectivityManager::class.java))
+    private val adapter: NewsListAdaptor = NewsListAdaptor{ article ->
+        showNewsDetail(article)
     }
 
     companion object {
@@ -48,6 +45,9 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
+        // setting up adapter
+        binding.newsListRecyclerview.adapter = adapter
 
         val queryTextListener = object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -65,27 +65,27 @@ class MainActivity : AppCompatActivity() {
 
         binding.searchView.setOnQueryTextListener(queryTextListener)
 
-//        newsViewModel = ViewModelProvider(this).get(NewsViewModel::class.java)
         initialiseObservers()
-//        setUpSwipeToRefresh()
+        setUpSwipeToRefresh()
 //        newsViewModel.onActivityReady()
     }
 
     // set up swipe to refresh
     private fun setUpSwipeToRefresh() {
-//        binding.swipeRefreshLayout.run {
-//            // set loading indicator color
-//            setColorSchemeColors(
-//                getColor(R.color.purple_200),
-//                getColor(R.color.teal_200),
-//            )
-//
-//            setOnRefreshListener {
+        binding.swipeRefreshLayout.run {
+            // set loading indicator color
+            setColorSchemeColors(
+                getColor(R.color.purple_200),
+                getColor(R.color.teal_200),
+            )
+
+            setOnRefreshListener {
 //                newsViewModel.refreshNews()
-//                Log.d("Debug", "Refresh")
-//                isRefreshing = false // remove the loading indicator
-//            }
-//        }
+                newsViewModel.fetchArticle()
+                Log.d("Debug", "Refresh")
+                isRefreshing = false // remove the loading indicator
+            }
+        }
     }
 
     // navigate to news detail activity
@@ -95,21 +95,31 @@ class MainActivity : AppCompatActivity() {
         startActivity(newsDetail)
     }
 
+    // observing the life data from newsViewModel
     private fun initialiseObservers() {
         Log.d("Debug", "123")
         newsViewModel.headLineNewsLiveData.observe(this) { result ->
             when (result) {
-                is RemoteResult.Success -> {
+                // TODO: should change to use NewsState sealed class
+                is ArticleState.Ready -> {
                     // TODO: show loading indicator
-                    showNews(result.value)
+                    showNews(result.articles)
                 }
-                is RemoteResult.Failure -> showError(
-                    when (result.error) {
-                        is RemoteError.ApiException -> result.error.message
-                        else -> result.error.message
-                    }
-                )
+                is ArticleState.Partial -> {
+                    showNews(result.articles)
+                    showError(
+                        when (result.error) {
+                            is RemoteError.ApiException -> result.error.message
+                            else -> result.error.message
+                        }
+                    )
+                }
             }
+        }
+
+        newsViewModel.isDataUsageLiveData.observe(this) {
+            isDataUsage = it
+            updateMenuItem()
         }
 
 //        newsViewModel.newsLoadingStateLiveData.observe(this) { state ->
@@ -119,11 +129,10 @@ class MainActivity : AppCompatActivity() {
 
     // show news in recycler view
     private fun showNews(articles: List<Article>) {
-        binding.newsListRecyclerview.run {
-            adapter = NewsListAdaptor(articles) { article ->
-                showNewsDetail(article)
-            }
-        }
+        // use updateData function to update data
+        // benefit is not instantiating the adaptor instance every time
+        // showNews is ran
+        adapter.updateData(articles)
     }
 
     // show error toast message
@@ -139,7 +148,7 @@ class MainActivity : AppCompatActivity() {
                 binding.newsListRecyclerview.gone()
                 binding.loadingProgressBar.visible()
             }
-            NewsLoadingState.LOADED -> {
+            NewsLoadingState.LOADED -> { // Ready
                 binding.loadingProgressBar.gone()
                 binding.newsListRecyclerview.visible()
             }
@@ -162,12 +171,20 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-//    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-//        if (isDataUsage) {
-//            menu?.findItem(R.id.has_wifi)?.setIcon(R.drawable.ic_baseline_wifi_24)
-//        } else {
-//            menu?.findItem(R.id.has_wifi)?.setIcon(R.drawable.ic_baseline_wifi_off_24)
-//        }
-//        return true
-//    }
+    private var wifiMenuItem: MenuItem? = null
+
+    // update the menu item based on the isDataUsageLiveData from newsViewModel
+    private fun updateMenuItem() {
+        if (isDataUsage) {
+            wifiMenuItem?.setIcon(R.drawable.ic_baseline_wifi_24)
+        } else {
+            wifiMenuItem?.setIcon(R.drawable.ic_baseline_wifi_off_24)
+        }
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        // getting the reference of menuItem
+        wifiMenuItem = menu?.findItem(R.id.has_wifi)
+        return true
+    }
 }
