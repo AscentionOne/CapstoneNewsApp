@@ -16,6 +16,10 @@ class NewsListAdaptor(
     fun updateData(articles: List<Article>) {
         internalArticles.clear()
         internalArticles.addAll(articles)
+        // since here we are clearing all the articles and add all of them
+        // using notifyDataSetChanged() is fine
+        // if we are removing single article, it is better to use other
+        // notify item change method (see notifyDataSetChanged() explanation)
         notifyDataSetChanged()
     }
 
