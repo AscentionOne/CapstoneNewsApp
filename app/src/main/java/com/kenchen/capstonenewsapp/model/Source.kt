@@ -6,9 +6,11 @@ import androidx.room.PrimaryKey
 import com.squareup.moshi.Json
 import kotlinx.parcelize.Parcelize
 
-/*
+/**
 * Source data class
+* TODO: can potentially changed to use DTO
 * */
+
 @Parcelize
 @Entity
 data class Source(

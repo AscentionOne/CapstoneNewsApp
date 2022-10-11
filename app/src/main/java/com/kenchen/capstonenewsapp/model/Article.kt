@@ -8,9 +8,10 @@ import com.kenchen.capstonenewsapp.database.converters.SourceConverter
 import com.squareup.moshi.Json
 import kotlinx.parcelize.Parcelize
 
-/*
-* Article data class
-* */
+/**
+ * Article data class
+ * TODO: can potentially changed to use DTO
+ * */
 @Parcelize
 @Entity
 data class Article(
@@ -26,3 +27,11 @@ data class Article(
     @field:Json(name = "publishedAt") val publishedAt: String,
     @field:Json(name = "content") val content: String? = null,
 ) : Parcelable
+
+//@Entity
+//data class Article{
+//    @PrimaryKey
+//    val id: String = UUID.randomUUID().toString(),
+//}
+//
+//data class SourceAndArticle()
