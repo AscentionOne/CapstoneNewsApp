@@ -1,13 +1,27 @@
 package com.kenchen.capstonenewsapp.views.news
 
+import android.annotation.SuppressLint
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.kenchen.capstonenewsapp.model.Article
 
 class NewsListAdaptor(
-    private var articles: List<Article>,
+//    articles: List<Article>,
     val onArticleClicked: (Article) -> Unit,
 ) : RecyclerView.Adapter<NewsListViewHolder>() {
+
+    private val internalArticles = mutableListOf<Article>()
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun updateData(articles: List<Article>) {
+        internalArticles.clear()
+        internalArticles.addAll(articles)
+        // since here we are clearing all the articles and add all of them
+        // using notifyDataSetChanged() is fine
+        // if we are removing single article, it is better to use other
+        // notify item change method (see notifyDataSetChanged() explanation)
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsListViewHolder {
         val articleView = ArticleView(parent.context)
@@ -19,13 +33,15 @@ class NewsListAdaptor(
     }
 
     override fun onBindViewHolder(holder: NewsListViewHolder, position: Int) {
-        holder.bindData(articles[position])
+        holder.bindData(internalArticles[position])
         holder.itemView.setOnClickListener {
-            onArticleClicked(articles[position])
+            onArticleClicked(internalArticles[position])
         }
     }
 
     override fun getItemCount(): Int {
-        return articles.size
+        return internalArticles.size
     }
 }
+
+// DTO  ->
