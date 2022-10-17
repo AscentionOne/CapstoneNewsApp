@@ -63,7 +63,7 @@ class NewsRepositoryImp(
                     // remote API
                     emit(ArticleState.Partial(newsArticles, mapException(error)))
                     // log the error for team to inspect
-                    Log.i(TAG, "Articles from local database network error")
+                    Log.e(TAG, "Articles from local database network error")
                 }
             } else {
                 Log.i(TAG, "Not fetching from network")

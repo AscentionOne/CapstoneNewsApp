@@ -38,6 +38,7 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         const val INTENT_ARTICLE_KEY = "newsParcel"
+        const val TAG = "MainActivity"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -97,7 +98,7 @@ class MainActivity : AppCompatActivity() {
 
     // observing the life data from newsViewModel
     private fun initialiseObservers() {
-        Log.d("Debug", "123")
+        Log.i(TAG, "Initializing observers ...")
         newsViewModel.headLineNewsLiveData.observe(this) { result ->
             when (result) {
                 // TODO: should change to use NewsState sealed class
