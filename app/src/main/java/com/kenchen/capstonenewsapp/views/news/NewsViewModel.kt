@@ -24,7 +24,15 @@ class NewsViewModel(
     val headLineNewsLiveData: LiveData<ArticleState> = _headLineNewsLiveData
 
     init {
-        fetchArticle()
+//        fetchArticle()
+    }
+
+    fun getMessage(message: String): String {
+        return message
+    }
+
+    fun print(message: String) {
+        println(message)
     }
 
     // consume the flow data from repository
