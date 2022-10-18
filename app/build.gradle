@@ -14,8 +14,11 @@ android {
         targetSdk 32
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    testOptions{
+        unitTests.returnDefaultValues = true
     }
 
     buildFeatures {
@@ -37,11 +40,13 @@ android {
     }
     packagingOptions {
         jniLibs {
-            excludes += ['META-INF/licenses/**']
+            excludes += ['META-INF/*']
         }
         resources {
-            excludes += ['META-INF/licenses/**']
+            excludes += ['META-INF/*']
         }
+
+//        resources.excludes.add("META-INF/*")
     }
 
     namespace 'com.kenchen.capstonenewsapp'
