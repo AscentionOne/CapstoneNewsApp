@@ -1,19 +1,38 @@
 package com.kenchen.capstonenewsapp
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.Observer
+import com.kenchen.capstonenewsapp.model.Article
+import com.kenchen.capstonenewsapp.model.ArticleState
+import com.kenchen.capstonenewsapp.model.Source
 import com.kenchen.capstonenewsapp.repository.NewsRepository
 import com.kenchen.capstonenewsapp.views.news.NewsViewModel
-import io.mockk.every
-import io.mockk.mockk
-import io.mockk.spyk
-import io.mockk.verify
+import io.mockk.*
+import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
 import org.junit.Assert.assertEquals
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
 class NewsViewModelTest {
+
+    @MockK
+    lateinit var mockRepository: NewsRepository
+
+    lateinit var viewModel: NewsViewModel
+
+    private val dummyArticle = Article(
+        Source(name = "CNN"),
+        "Ken",
+        "Test",
+        "This is a test article",
+        "www.test.com",
+        "www.test.com",
+        "CNN",
+        "Show me how to test.",
+    )
 
     @ExperimentalCoroutinesApi
     @get:Rule
@@ -22,70 +41,98 @@ class NewsViewModelTest {
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
+
+    @Before
+    fun setUp() {
+        MockKAnnotations.init(this)
+
+        // FIXME: can we put every in set up before test start?
+//        every { mockRepository.isDataUsage() } returns flow { emit(true) }
+
+//        viewModel = NewsViewModel(mockRepository)
+    }
+
     @Test
     fun `When calling print message actually prints out the message`() {
-        val mockRepo = spyk<NewsRepository>()
 
-        every { mockRepo.isDataUsage() } answers {
-            flow { }
-//            flow { emit(true) }
-        }
 
-//        val liveData: LiveData<Boolean> = MutableLiveData<Boolean>(false)
+        every { mockRepository.isDataUsage() } returns flow { emit(true) }
 
-        val viewModel = NewsViewModel(mockRepo)
+        val viewModel = NewsViewModel(mockRepository)
 
         assertEquals("This is in test", viewModel.getMessage("This is in test"))
 
-
-//        coEvery { viewModel.isDataUsageLiveData } returns liveData
-
-
-//        coEvery { viewModel.isDataUsageLiveData } coAnswers  {
-//           val data = flow {
-//               emit(true)
-//           }
-//
-//            data.asLiveData()
-//        }
-
-//        coEvery { viewModel.isDataUsageLiveData } answers {
-//            val data = MutableLiveData<Boolean>()
-//            data.value = true
-//            data
-//        }
-//
-//        every { viewModel.printMessage(any()) } answers {
-//            println("123")
-//        }
-
-        verify(exactly = 1) { mockRepo.isDataUsage() }
+        verify(exactly = 1) { mockRepository.isDataUsage() }
 //        verify(exactly = 1) { viewModel.print("123") }
     }
 
     @Test
     fun `print message`() {
-        val mockRepo = mockk<NewsRepository>()
 
-        every { mockRepo.isDataUsage() } answers {
+        every { mockRepository.isDataUsage() } answers {
             flow { }
 //            flow { emit(true) }
         }
 
-        val viewModel = NewsViewModel(mockRepo)
-
-
-
-//        val mockViewModel = mockk<NewsViewModel>()
-
-//        every { mockViewModel.print(any()) } just Runs
+        val viewModel = NewsViewModel(mockRepository)
 
         viewModel.print("1234")
 
-//        mockViewModel.print("123")
-
         verify(exactly = 1) { viewModel.print("1234") }
 //        verify(exactly = 1) { println("1234") }
+    }
+
+    @Test
+    fun `fetch articles`() {
+
+        val mockObserver = mockk<Observer<ArticleState>>()
+
+        val expectedResult = ArticleState.Ready(listOf(dummyArticle))
+
+        every { mockRepository.isDataUsage() } returns flow { emit(true) }
+
+        every { mockRepository.getArticles() } returns flow { emit(expectedResult) }
+
+        var onChangedInvoked = 0
+
+
+        val viewModel = NewsViewModel(mockRepository)
+
+        viewModel.headLineNewsLiveData.observeForever(mockObserver)
+
+        every { mockObserver.onChanged(expectedResult) } answers {
+            onChangedInvoked++
+        }
+
+        viewModel.fetchArticle()
+
+        verify(exactly = 1) { mockRepository.getArticles() }
+
+//        assertEquals(1, onChangedInvoked)
+        verify { mockObserver.onChanged(expectedResult) }
+    }
+
+    @Test
+    fun `search articles`() {
+
+        every { mockRepository.isDataUsage() } returns flow { emit(true) }
+
+        val viewModel = NewsViewModel(mockRepository)
+
+        viewModel.searchArticles("test")
+
+        coVerify(exactly = 1) { mockRepository.searchArticles(any()) }
+    }
+
+    @Test
+    fun `toggle data usage`() {
+        every { mockRepository.isDataUsage() } returns flow { emit(true) }
+
+        val viewModel = NewsViewModel(mockRepository)
+
+        viewModel.toggleDataUsage()
+
+        coVerify(exactly = 1) { mockRepository.toggleDataUsage() }
     }
 }
 
@@ -93,4 +140,6 @@ class NewsViewModelTest {
  * Question:
  * 1. how do I test the function that returns Unit (nothing)
  * 2. what is the difference between black-box and white-box testing
+ * 3. can we put all the code in runBlocking ?
+ * 4.
  * */
