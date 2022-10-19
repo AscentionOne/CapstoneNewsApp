@@ -95,6 +95,28 @@ class NewsRepositoryImpTest {
     }
 
     @Test
+    fun `toggle data usage`() {
+        runBlocking {
+            coEvery { mockPrefsStore.toggleDataUsage() } just runs
+            newsRepository.toggleDataUsage()
+            coVerify(exactly = 1) { mockPrefsStore.toggleDataUsage() }
+        }
+    }
+
+    @Test
+    fun `is data usage should returns flow of boolean`() {
+        val expectedResult = true
+
+        runBlocking {
+            coEvery { mockPrefsStore.isDataUsage() } returns flow { emit(true) }
+
+            val actualResult = newsRepository.isDataUsage().first()
+
+            assertEquals(expectedResult, actualResult)
+        }
+    }
+
+    @Test
     fun `articles are fetched from database first and ArticleState ready with articles is returned`() {
         val expectedResult = ArticleState.Ready(listOf(dummyArticle))
 
