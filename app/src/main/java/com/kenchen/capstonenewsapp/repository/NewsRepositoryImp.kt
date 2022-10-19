@@ -27,7 +27,7 @@ class NewsRepositoryImp(
     }
 
     override fun getArticles(): Flow<ArticleState> {
-        return flow {
+        return flow<ArticleState> {
             // can emit ArticleState.loading() here for loading state
             // always get from local Room database first
             val newsArticles = articleDao.getArticles()
@@ -40,25 +40,37 @@ class NewsRepositoryImp(
 
             val isOnWifi = networkStatusChecker.isOnWifiConnection()
 
+            println("here")
+            println(fetchDataOnWifiOnly)
+            println(isOnWifi)
             // only fetch the data when
             // 1. there is wifi connection
             // 2. unclick the has wifi on menu item, means user can use data without wifi
             if (fetchDataOnWifiOnly.not() || isOnWifi) {
                 Log.i(TAG, "Fetching from network")
                 try {
+                    println("success")
                     val result = remoteApi.getTopHeadlinesByCountry("us")
+                    println("success1")
 
                     emit(ArticleState.Ready(result))
+                    println("success2")
 
                     // if network data is not empty, means the source of truth
                     // add to database
                     if (result.isNotEmpty()) {
+                        println("success3")
+
                         // clear first to prevent stacking up old articles
                         articleDao.clearArticles()
                         articleDao.addArticles(result)
                     }
+                    println("success4")
+
 
                 } catch (error: Exception) {
+                    println("Throw error")
+
                     // emit partial to show that data is coming from Room database not from
                     // remote API
                     emit(ArticleState.Partial(newsArticles, mapException(error)))
@@ -66,6 +78,7 @@ class NewsRepositoryImp(
                     Log.e(TAG, "Articles from local database network error")
                 }
             } else {
+                println("Not fetching from network")
                 Log.i(TAG, "Not fetching from network")
             }
 
