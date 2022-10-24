@@ -8,7 +8,7 @@ import com.kenchen.capstonenewsapp.model.Article
 import com.kenchen.capstonenewsapp.model.ArticleState
 import com.kenchen.capstonenewsapp.model.Source
 import com.kenchen.capstonenewsapp.networking.NetworkStatusChecker
-import com.kenchen.capstonenewsapp.networking.RemoteApi
+import com.kenchen.capstonenewsapp.networking.RemoteApiImp
 import com.kenchen.capstonenewsapp.networking.RemoteError
 import com.kenchen.capstonenewsapp.prefsstore.PrefsStore
 import com.kenchen.capstonenewsapp.repository.NewsRepositoryImp
@@ -30,7 +30,7 @@ class NewsRepositoryImpTest {
     lateinit var mockSourceDao: SourceDao
 
     @MockK
-    lateinit var mockRemoteApi: RemoteApi
+    lateinit var mockRemoteApi: RemoteApiImp
 
     @MockK
     lateinit var mockPrefsStore: PrefsStore

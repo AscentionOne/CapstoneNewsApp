@@ -11,7 +11,6 @@ import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
-import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -35,8 +34,8 @@ class NewsViewModelTest {
     )
 
     @ExperimentalCoroutinesApi
-    @get:Rule
-    var coroutinesTestRule = CoroutinesTestRule()
+//    @get:Rule
+//    var coroutinesTestRule = CoroutinesTestRule()
 
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
@@ -50,36 +49,6 @@ class NewsViewModelTest {
 //        every { mockRepository.isDataUsage() } returns flow { emit(true) }
 
 //        viewModel = NewsViewModel(mockRepository)
-    }
-
-    @Test
-    fun `When calling print message actually prints out the message`() {
-
-
-        every { mockRepository.isDataUsage() } returns flow { emit(true) }
-
-        val viewModel = NewsViewModel(mockRepository)
-
-        assertEquals("This is in test", viewModel.getMessage("This is in test"))
-
-        verify(exactly = 1) { mockRepository.isDataUsage() }
-//        verify(exactly = 1) { viewModel.print("123") }
-    }
-
-    @Test
-    fun `print message`() {
-
-        every { mockRepository.isDataUsage() } answers {
-            flow { }
-//            flow { emit(true) }
-        }
-
-        val viewModel = NewsViewModel(mockRepository)
-
-        viewModel.print("1234")
-
-        verify(exactly = 1) { viewModel.print("1234") }
-//        verify(exactly = 1) { println("1234") }
     }
 
     @Test
@@ -138,8 +107,8 @@ class NewsViewModelTest {
 
 /**
  * Question:
- * 1. how do I test the function that returns Unit (nothing)
- * 2. what is the difference between black-box and white-box testing
- * 3. can we put all the code in runBlocking ?
- * 4.
+ * 1. how do I test the function that returns Unit (nothing) V
+ * 2. what is the difference between black-box and white-box testing V
+ * 3. can we put all the code in runBlocking ? V
+ * 4. Do we need CoroutinesTestRule?
  * */
