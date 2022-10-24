@@ -8,7 +8,6 @@ import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
-import com.kenchen.capstonenewsapp.App
 import com.kenchen.capstonenewsapp.R
 import com.kenchen.capstonenewsapp.databinding.ActivityMainBinding
 import com.kenchen.capstonenewsapp.model.Article
@@ -21,14 +20,14 @@ import com.kenchen.capstonenewsapp.views.news.NewsListAdaptor
 import com.kenchen.capstonenewsapp.views.news.NewsLoadingState
 import com.kenchen.capstonenewsapp.views.news.NewsViewModel
 import com.kenchen.capstonenewsapp.views.newsdetails.NewsDetailActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     // using view binding
     private lateinit var binding: ActivityMainBinding
 
-    private val newsViewModel: NewsViewModel by viewModels {
-        NewsViewModel.Factory(App.newsRepository)
-    }
+    private val newsViewModel: NewsViewModel by viewModels()
 
     private var isDataUsage = false
 
