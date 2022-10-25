@@ -1,4 +1,4 @@
-package com.kenchen.capstonenewsapp.views.news
+package com.kenchen.capstonenewsapp.ui.newslist
 
 import androidx.lifecycle.*
 import com.kenchen.capstonenewsapp.model.ArticleState

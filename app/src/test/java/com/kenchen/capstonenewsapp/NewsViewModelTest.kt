@@ -6,7 +6,7 @@ import com.kenchen.capstonenewsapp.model.Article
 import com.kenchen.capstonenewsapp.model.ArticleState
 import com.kenchen.capstonenewsapp.model.Source
 import com.kenchen.capstonenewsapp.repository.NewsRepository
-import com.kenchen.capstonenewsapp.views.news.NewsViewModel
+import com.kenchen.capstonenewsapp.ui.newslist.NewsViewModel
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi

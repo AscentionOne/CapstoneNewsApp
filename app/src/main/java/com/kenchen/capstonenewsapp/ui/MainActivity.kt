@@ -1,4 +1,4 @@
-package com.kenchen.capstonenewsapp.views
+package com.kenchen.capstonenewsapp.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -16,10 +16,10 @@ import com.kenchen.capstonenewsapp.networking.RemoteError
 import com.kenchen.capstonenewsapp.utils.gone
 import com.kenchen.capstonenewsapp.utils.toast
 import com.kenchen.capstonenewsapp.utils.visible
-import com.kenchen.capstonenewsapp.views.news.NewsListAdaptor
-import com.kenchen.capstonenewsapp.views.news.NewsLoadingState
-import com.kenchen.capstonenewsapp.views.news.NewsViewModel
-import com.kenchen.capstonenewsapp.views.newsdetails.NewsDetailActivity
+import com.kenchen.capstonenewsapp.ui.newslist.NewsListAdaptor
+import com.kenchen.capstonenewsapp.ui.newslist.NewsLoadingState
+import com.kenchen.capstonenewsapp.ui.newslist.NewsViewModel
+import com.kenchen.capstonenewsapp.ui.newsdetails.NewsDetailActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
