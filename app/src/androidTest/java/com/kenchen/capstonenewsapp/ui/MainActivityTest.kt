@@ -11,4 +11,5 @@ class MainActivityTest {
     val hiltRule = HiltAndroidRule(this)
 
     // UI test
+    // expresso
 }
