@@ -140,4 +140,7 @@ dependencies {
     // Hilt instrumented test
     androidTestImplementation("com.google.dagger:hilt-android-testing:2.44")
     kaptAndroidTest("com.google.dagger:hilt-android-compiler:2.44")
+
+    // Cash app Turbine
+    testImplementation 'app.cash.turbine:turbine:0.12.0'
 }
