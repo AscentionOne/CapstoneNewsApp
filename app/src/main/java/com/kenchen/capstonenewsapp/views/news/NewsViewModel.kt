@@ -28,7 +28,7 @@ class NewsViewModel @Inject constructor (
     val headLineNewsLiveData: LiveData<ArticleState> = _headLineNewsLiveData
 
     init {
-//        fetchArticle()
+        fetchArticle()
     }
 
     // consume the flow data from repository
