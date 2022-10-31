@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class NewsRepositoryImp @Inject constructor (
+class NewsRepositoryImp @Inject constructor(
     private val articleDao: ArticleDao,
     private val sourceDao: SourceDao,
     private val remoteApi: RemoteApiImp,

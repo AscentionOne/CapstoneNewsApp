@@ -13,13 +13,13 @@ import com.kenchen.capstonenewsapp.databinding.ActivityMainBinding
 import com.kenchen.capstonenewsapp.model.Article
 import com.kenchen.capstonenewsapp.model.ArticleState
 import com.kenchen.capstonenewsapp.networking.RemoteError
-import com.kenchen.capstonenewsapp.utils.gone
-import com.kenchen.capstonenewsapp.utils.toast
-import com.kenchen.capstonenewsapp.utils.visible
+import com.kenchen.capstonenewsapp.ui.newsdetails.NewsDetailActivity
 import com.kenchen.capstonenewsapp.ui.newslist.NewsListAdaptor
 import com.kenchen.capstonenewsapp.ui.newslist.NewsLoadingState
 import com.kenchen.capstonenewsapp.ui.newslist.NewsViewModel
-import com.kenchen.capstonenewsapp.ui.newsdetails.NewsDetailActivity
+import com.kenchen.capstonenewsapp.utils.gone
+import com.kenchen.capstonenewsapp.utils.toast
+import com.kenchen.capstonenewsapp.utils.visible
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -189,3 +189,9 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 }
+
+/**
+ * TODO:
+ * 1. add item touch helper (dragging the news articles)
+ * 2. add slide in out transitions to Activity change
+ * */
