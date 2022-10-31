@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
 
     private var isDataUsage = false
 
-    private val adapter: NewsListAdaptor = NewsListAdaptor{ article ->
+    private val adapter: NewsListAdaptor = NewsListAdaptor { article ->
         showNewsDetail(article)
     }
 
@@ -94,6 +94,7 @@ class MainActivity : AppCompatActivity() {
         val newsDetail = Intent(this, NewsDetailActivity::class.java)
         newsDetail.putExtra(INTENT_ARTICLE_KEY, article)
         startActivity(newsDetail)
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
     }
 
     // observing the life data from newsViewModel
