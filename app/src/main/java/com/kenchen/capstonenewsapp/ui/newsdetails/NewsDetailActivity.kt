@@ -2,6 +2,12 @@ package com.kenchen.capstonenewsapp.ui.newsdetails
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Observer
 import androidx.work.*
 import com.bumptech.glide.Glide
@@ -24,11 +30,25 @@ class NewsDetailActivity : AppCompatActivity() {
 
         val article = intent.getParcelableExtra<Article>(MainActivity.INTENT_ARTICLE_KEY)!!
         title = article.title
-        binding.newsDescriptionTextView.text = article.description
+//        binding.newsDescriptionTextView.text = article.description
 
         if (!article.urlToImage.isNullOrEmpty()) {
             downloadAndDisplayImage(article.urlToImage)
         }
+
+        binding.composeView.setContent {
+            DescriptionText(article.description ?: "")
+        }
+
+    }
+
+    @Composable
+    @Preview
+    fun DescriptionText(description:String = "") {
+        Text(
+            modifier = Modifier.padding(8.dp),
+            text = description,
+        )
     }
 
     private fun downloadAndDisplayImage(imageUrl: String) {
