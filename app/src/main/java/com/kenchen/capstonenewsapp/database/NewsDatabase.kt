@@ -1,8 +1,6 @@
 package com.kenchen.capstonenewsapp.database
 
-import android.content.Context
 import androidx.room.Database
-import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.kenchen.capstonenewsapp.database.converters.SourceConverter
@@ -19,17 +17,17 @@ const val DATABASE_VERSION = 1
 )
 @TypeConverters(SourceConverter::class)
 abstract class NewsDatabase() : RoomDatabase() {
-    companion object {
-        private const val DATABASE_NAME = "News"
-        fun buildDatabase(context: Context): NewsDatabase {
-            return Room.databaseBuilder(
-                context,
-                NewsDatabase::class.java,
-                DATABASE_NAME
-            )
-                .build()
-        }
-    }
+//    companion object {
+//        private const val DATABASE_NAME = "News"
+//        fun buildDatabase(context: Context): NewsDatabase {
+//            return Room.databaseBuilder(
+//                context,
+//                NewsDatabase::class.java,
+//                DATABASE_NAME
+//            )
+//                .build()
+//        }
+//    }
 
     abstract fun articleDao(): ArticleDao
 

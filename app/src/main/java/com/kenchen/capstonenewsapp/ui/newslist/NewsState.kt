@@ -1,4 +1,4 @@
-package com.kenchen.capstonenewsapp.views.news
+package com.kenchen.capstonenewsapp.ui.newslist
 
 import com.kenchen.capstonenewsapp.model.Article
 

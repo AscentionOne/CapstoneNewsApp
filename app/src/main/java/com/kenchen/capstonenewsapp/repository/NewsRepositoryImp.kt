@@ -7,17 +7,18 @@ import com.kenchen.capstonenewsapp.model.Article
 import com.kenchen.capstonenewsapp.model.ArticleState
 import com.kenchen.capstonenewsapp.model.Source
 import com.kenchen.capstonenewsapp.networking.NetworkStatusChecker
-import com.kenchen.capstonenewsapp.networking.RemoteApi
+import com.kenchen.capstonenewsapp.networking.RemoteApiImp
 import com.kenchen.capstonenewsapp.prefsstore.PrefsStore
 import com.kenchen.capstonenewsapp.utils.mapException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
 
-class NewsRepositoryImp(
+class NewsRepositoryImp @Inject constructor(
     private val articleDao: ArticleDao,
     private val sourceDao: SourceDao,
-    private val remoteApi: RemoteApi,
+    private val remoteApi: RemoteApiImp,
     private val prefsStore: PrefsStore,
     private val networkStatusChecker: NetworkStatusChecker,
 ) : NewsRepository {

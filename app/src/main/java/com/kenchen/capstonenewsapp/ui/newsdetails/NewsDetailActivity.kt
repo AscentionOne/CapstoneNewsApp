@@ -1,4 +1,4 @@
-package com.kenchen.capstonenewsapp.views.newsdetails
+package com.kenchen.capstonenewsapp.ui.newsdetails
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -7,7 +7,7 @@ import androidx.work.*
 import com.bumptech.glide.Glide
 import com.kenchen.capstonenewsapp.databinding.ActivityNewsDetailBinding
 import com.kenchen.capstonenewsapp.model.Article
-import com.kenchen.capstonenewsapp.views.MainActivity
+import com.kenchen.capstonenewsapp.ui.MainActivity
 import com.kenchen.capstonenewsapp.worker.DownloadWorker
 import com.kenchen.capstonenewsapp.worker.FileClearWorker
 import com.kenchen.capstonenewsapp.worker.SepiaFilterWorker

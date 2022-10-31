@@ -2,19 +2,21 @@ package com.kenchen.capstonenewsapp
 
 import android.util.Log
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import app.cash.turbine.test
 import com.kenchen.capstonenewsapp.database.dao.ArticleDao
 import com.kenchen.capstonenewsapp.database.dao.SourceDao
 import com.kenchen.capstonenewsapp.model.Article
 import com.kenchen.capstonenewsapp.model.ArticleState
 import com.kenchen.capstonenewsapp.model.Source
 import com.kenchen.capstonenewsapp.networking.NetworkStatusChecker
-import com.kenchen.capstonenewsapp.networking.RemoteApi
+import com.kenchen.capstonenewsapp.networking.RemoteApiImp
 import com.kenchen.capstonenewsapp.networking.RemoteError
 import com.kenchen.capstonenewsapp.prefsstore.PrefsStore
 import com.kenchen.capstonenewsapp.repository.NewsRepositoryImp
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -30,7 +32,7 @@ class NewsRepositoryImpTest {
     lateinit var mockSourceDao: SourceDao
 
     @MockK
-    lateinit var mockRemoteApi: RemoteApi
+    lateinit var mockRemoteApi: RemoteApiImp
 
     @MockK
     lateinit var mockPrefsStore: PrefsStore
@@ -160,14 +162,22 @@ class NewsRepositoryImpTest {
             val flowArticleState = newsRepository.getArticles()
 
 //            println(flowArticleState.take(3).toList())
-            val articleStates = flowArticleState.toList()
-            println(flowArticleState.count()) // 2
+//            val articleStates = flowArticleState.toList()
+//            println(flowArticleState.count()) // 2
 
-            val articleStateReady = ArticleState.Ready(listOf(dummyArticle))
+            val expectedResult = ArticleState.Ready(listOf(dummyArticle))
 
-            assertEquals(listOf(articleStateReady, articleStateReady),
-                articleStates
-            )
+            flowArticleState.test {
+                assertEquals(expectedResult, awaitItem()) // emit from database
+                assertEquals(expectedResult, awaitItem()) // emit from remote api
+                awaitComplete()
+            }
+
+
+
+//            assertEquals(listOf(articleStateReady, articleStateReady),
+//                articleStates
+//            )
 
 //            assertEquals(ArticleState.Ready(listOf(dummyArticle)),
 //                flowArticleState.drop(1).first()
@@ -187,10 +197,22 @@ class NewsRepositoryImpTest {
         runBlocking {
             val flowArticleState = newsRepository.getArticles()
 
-            assertEquals(ArticleState.Partial(listOf(dummyArticle), RemoteError
-                .UnexpectedException("Unexpected Error")),
-                flowArticleState.drop(1).first()
-            )
+            val expectedResultFromDatabase = ArticleState.Ready(listOf(dummyArticle))
+
+            val expectedResult = ArticleState.Partial(listOf(dummyArticle), RemoteError
+                .UnexpectedException("Unexpected Error"))
+
+            flowArticleState.test {
+                assertEquals(expectedResultFromDatabase, awaitItem()) // emit from database
+//                cancelAndIgnoreRemainingEvents()
+                assertEquals(expectedResult, awaitItem()) // emit from catch block
+                awaitComplete()
+            }
+
+//            assertEquals(ArticleState.Partial(listOf(dummyArticle), RemoteError
+//                .UnexpectedException("Unexpected Error")),
+//                flowArticleState.drop(1).first()
+//            )
         }
 
     }

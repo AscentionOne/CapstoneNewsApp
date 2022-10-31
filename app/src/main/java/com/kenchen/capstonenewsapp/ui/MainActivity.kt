@@ -1,4 +1,4 @@
-package com.kenchen.capstonenewsapp.views
+package com.kenchen.capstonenewsapp.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,27 +8,26 @@ import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
-import com.kenchen.capstonenewsapp.App
 import com.kenchen.capstonenewsapp.R
 import com.kenchen.capstonenewsapp.databinding.ActivityMainBinding
 import com.kenchen.capstonenewsapp.model.Article
 import com.kenchen.capstonenewsapp.model.ArticleState
 import com.kenchen.capstonenewsapp.networking.RemoteError
+import com.kenchen.capstonenewsapp.ui.newsdetails.NewsDetailActivity
+import com.kenchen.capstonenewsapp.ui.newslist.NewsListAdaptor
+import com.kenchen.capstonenewsapp.ui.newslist.NewsLoadingState
+import com.kenchen.capstonenewsapp.ui.newslist.NewsViewModel
 import com.kenchen.capstonenewsapp.utils.gone
 import com.kenchen.capstonenewsapp.utils.toast
 import com.kenchen.capstonenewsapp.utils.visible
-import com.kenchen.capstonenewsapp.views.news.NewsListAdaptor
-import com.kenchen.capstonenewsapp.views.news.NewsLoadingState
-import com.kenchen.capstonenewsapp.views.news.NewsViewModel
-import com.kenchen.capstonenewsapp.views.newsdetails.NewsDetailActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     // using view binding
     private lateinit var binding: ActivityMainBinding
 
-    private val newsViewModel: NewsViewModel by viewModels {
-        NewsViewModel.Factory(App.newsRepository)
-    }
+    private val newsViewModel: NewsViewModel by viewModels()
 
     private var isDataUsage = false
 
@@ -68,6 +67,7 @@ class MainActivity : AppCompatActivity() {
 
         initialiseObservers()
         setUpSwipeToRefresh()
+//        newsViewModel.fetchArticle() // FIXME: Run this in onCreate?
 //        newsViewModel.onActivityReady()
     }
 
@@ -189,3 +189,9 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 }
+
+/**
+ * TODO:
+ * 1. add item touch helper (dragging the news articles)
+ * 2. add slide in out transitions to Activity change
+ * */

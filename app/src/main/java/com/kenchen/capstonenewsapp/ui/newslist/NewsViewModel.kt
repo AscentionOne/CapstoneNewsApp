@@ -1,38 +1,34 @@
-package com.kenchen.capstonenewsapp.views.news
+package com.kenchen.capstonenewsapp.ui.newslist
 
 import androidx.lifecycle.*
 import com.kenchen.capstonenewsapp.model.ArticleState
 import com.kenchen.capstonenewsapp.repository.NewsRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class NewsViewModel(
+@HiltViewModel
+class NewsViewModel @Inject constructor (
     private val newsRepo: NewsRepository,
 ) : ViewModel() {
 
-    class Factory(
-        private val newsRepo: NewsRepository,
-    ) : ViewModelProvider.Factory {
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return NewsViewModel(newsRepo) as T
-        }
-    }
+    // By using Hilt(DI) Factory is not needed
+//    class Factory(
+//        private val newsRepo: NewsRepository,
+//    ) : ViewModelProvider.Factory {
+//        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+//            return NewsViewModel(newsRepo) as T
+//        }
+//    }
 
     private val _headLineNewsLiveData = MutableLiveData<ArticleState>()
     val headLineNewsLiveData: LiveData<ArticleState> = _headLineNewsLiveData
 
     init {
-//        fetchArticle()
-    }
-
-    fun getMessage(message: String): String {
-        return message
-    }
-
-    fun print(message: String) {
-        println(message)
+        fetchArticle()
     }
 
     // consume the flow data from repository
