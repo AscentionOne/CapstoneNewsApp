@@ -67,7 +67,6 @@ class MainActivity : AppCompatActivity() {
 
         initialiseObservers()
         setUpSwipeToRefresh()
-//        newsViewModel.fetchArticle() // FIXME: Run this in onCreate?
 //        newsViewModel.onActivityReady()
     }
 
