@@ -33,7 +33,8 @@ class NewsDetailActivity : AppCompatActivity() {
 //        binding.newsDescriptionTextView.text = article.description
 
         if (!article.urlToImage.isNullOrEmpty()) {
-            downloadAndDisplayImage(article.urlToImage)
+//            downloadAndDisplayImage(article.urlToImage)
+            displayImage(article.urlToImage)
         }
 
         binding.composeView.setContent {
