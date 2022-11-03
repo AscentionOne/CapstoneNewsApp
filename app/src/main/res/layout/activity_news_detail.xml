@@ -6,21 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".ui.newsdetails.NewsDetailActivity">
 
-    <TextView
-        android:id="@+id/newsDescriptionTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/NewsDetailCardView"
-        app:layout_constraintVertical_bias="0.0"
-        tools:text="news description" />
-
     <androidx.cardview.widget.CardView
-        android:id="@+id/NewsDetailCardView"
+        android:id="@+id/newsDetailCardView"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_margin="8dp"
@@ -36,4 +23,24 @@
             android:scaleType="center"
             tools:srcCompat="@tools:sample/avatars" />
     </androidx.cardview.widget.CardView>
+
+<!--    <TextView-->
+<!--        android:id="@+id/newsDescriptionTextView"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginLeft="8dp"-->
+<!--        android:layout_marginRight="8dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/newsDetailCardView"-->
+<!--        app:layout_constraintVertical_bias="0.0"-->
+<!--        tools:text="news description" />-->
+
+    <androidx.compose.ui.platform.ComposeView
+        android:id="@+id/composeView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/newsDetailCardView" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

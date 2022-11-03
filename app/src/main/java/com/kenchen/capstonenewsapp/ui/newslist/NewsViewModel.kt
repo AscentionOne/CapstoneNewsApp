@@ -28,6 +28,7 @@ class NewsViewModel @Inject constructor (
     val headLineNewsLiveData: LiveData<ArticleState> = _headLineNewsLiveData
 
     init {
+        // fetch article initially
         fetchArticle()
     }
 
