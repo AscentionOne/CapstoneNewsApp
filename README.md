@@ -2,6 +2,22 @@
 
 Capstone news app is a app I create for getting the news from public [NewsAPI](https://newsapi.org/).
 
+About the App
+
+what
+when
+why
+where
+who
+
+add app image
+
+## Table of content
+
+[Architecture](#🏠-architectural-pattern---mvvm)
+
+[Di](#dependency-injectiondi)
+
 ## 🏠 Architectural Pattern - MVVM
 
 ---
