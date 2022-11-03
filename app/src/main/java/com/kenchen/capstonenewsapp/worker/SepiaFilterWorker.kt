@@ -11,7 +11,7 @@ import com.raywenderlich.android.introapp.ImageUtils
 import java.io.FileOutputStream
 
 /**
- * Sepia image filer worker
+ * Sepia image filter worker
  */
 
 class SepiaFilterWorker(context: Context, workerParameters: WorkerParameters) : Worker(context,
