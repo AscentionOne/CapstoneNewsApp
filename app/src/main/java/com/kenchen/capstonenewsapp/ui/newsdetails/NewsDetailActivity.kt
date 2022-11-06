@@ -6,8 +6,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.Observer
 import androidx.work.*
 import com.bumptech.glide.Glide
@@ -37,18 +40,64 @@ class NewsDetailActivity : AppCompatActivity() {
             displayImage(article.urlToImage)
         }
 
-        binding.composeView.setContent {
+        binding.descriptionComposeView.setContent {
             DescriptionText(article.description ?: "")
+        }
+
+        binding.titleComposeView.setContent {
+            TitleText(title = article.title)
+        }
+
+        binding.authorComposeView.setContent {
+            AuthorText(author = article.author ?: "Unknown")
+        }
+
+        binding.contentComposeView.setContent {
+            ContentText(content = article.content ?: "")
         }
 
     }
 
     @Composable
     @Preview
-    fun DescriptionText(description:String = "") {
+    fun TitleText(title: String = "") {
+        Text(
+            text = title,
+            modifier = Modifier.padding(8.dp),
+            color = Color.White,
+            fontSize = 24.sp,
+            fontWeight = FontWeight.Bold,
+        )
+    }
+
+    @Composable
+    @Preview
+    fun AuthorText(author: String = "") {
+        Text(
+            text = "By $author",
+            modifier = Modifier.padding(8.dp),
+            color = Color.White,
+            fontSize = 12.sp,
+        )
+    }
+
+    @Composable
+    @Preview
+    fun DescriptionText(description: String = "") {
         Text(
             modifier = Modifier.padding(8.dp),
             text = description,
+            color = Color.White,
+        )
+    }
+
+    @Composable
+    @Preview
+    fun ContentText(content: String = "") {
+        Text(
+            modifier = Modifier.padding(8.dp),
+            text = content,
+            color = Color.White,
         )
     }
 
