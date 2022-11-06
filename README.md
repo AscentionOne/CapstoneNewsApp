@@ -1,6 +1,12 @@
 # Capstone News App
 
-Capstone news app is a app I create for getting the news from public [NewsAPI](https://newsapi.org/).
+Capstone news app is a app I create when I was joining Kodeco 2022 Android Bootcamp. The App is to get the news from public [NewsAPI](https://newsapi.org/) and show it to the user.
+
+I am using MVVM as the app architecture. Which is good for testing since it has clear separation of responsibility in each layer(Model, View and ViewModel layers). For the view, I am using pure Activity with XML layout. I also adopt the Compose UI to the app, a new way of building modern UI in Android. While fetching the remote API I use Retrofit, a type-safe REST client for Android. The advantage of using Retrofit is it automatically serialises the JSON response and also work well with other popular converters, for example, Gson and Moshi. Here I am using Moshi. Retrofit also handles threading automatically and works well with Kotlin Coroutine (support suspend function).
+
+Asynchronous programming is also very important for modern app. I use Kotlin Coroutine to manage ansynchronous task. Coroutine let you write asynchronous code in synchronous way which is easy to read and understand. It lets you run a block of code (ex: network request) in a particular thread. Also get rid of boilerplate code.
+
+room also works well with coroutine
 
 About the App
 
@@ -69,6 +75,7 @@ Activity - Intent
 Fragment - Jetpack navigation
 
 Networking: Retrofit
+Retrofit 2 by default leverages OkHttp as the networking layer and is built on top of it.
 
 ## Threading: Coroutine
 
@@ -95,7 +102,9 @@ benifit of DI?
 why Hilt?
 Hilt
 
-## Compose UI
+## Compose UI (Compose View)
+
+interoperability with xml
 
 ## 🧪 Testing
 
@@ -104,3 +113,14 @@ Using MockK for unit test.
 UI test: Expresso
 
 ## Future work:
+
+Go through App fundamentals
+content provider: pass the data from a app to another app
+
+Intent:
+1 MB limit
+implecite intent
+explicit intent
+
+Activity - intent with parcelable
+Fragment - through navgraph
