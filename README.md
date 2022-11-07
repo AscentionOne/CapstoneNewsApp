@@ -1,5 +1,9 @@
 # Capstone News App
 
+![alt text](/images/screenshots/screenshot_1.png 'Screen shot of Capstone News App')
+
+# About
+
 Capstone news app is an app I create during Kodeco 2022 Android Bootcamp. The main purpose of the app is to get the news from public [NewsAPI](https://newsapi.org/) and present it to the user.
 
 I am using MVVM as the app architecture. MVVM is the most famous architecture currently for Android app development. It is suitable for a larger project, future scalability, and code testability since it has a clear separation of responsibility in each layer(Model, View, and ViewModel layers). For the view, I am using pure Activity with XML layout. I also adopt the Compose UI to the app, a new way of building modern UI in Android.
