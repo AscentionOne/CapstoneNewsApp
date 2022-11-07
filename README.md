@@ -1,20 +1,22 @@
 # Capstone News App
 
-Capstone news app is a app I create when I was joining Kodeco 2022 Android Bootcamp. The App is to get the news from public [NewsAPI](https://newsapi.org/) and show it to the user.
+<!-- ![alt text](/images/screenshots/screenshot_1.png 'Screen shot of Capstone News App') -->
 
-I am using MVVM as the app architecture. Which is good for testing since it has clear separation of responsibility in each layer(Model, View and ViewModel layers). For the view, I am using pure Activity with XML layout. I also adopt the Compose UI to the app, a new way of building modern UI in Android. While fetching the remote API I use Retrofit, a type-safe REST client for Android. The advantage of using Retrofit is it automatically serialises the JSON response and also work well with other popular converters, for example, Gson and Moshi. Here I am using Moshi. Retrofit also handles threading automatically and works well with Kotlin Coroutine (support suspend function).
+# About
 
-Asynchronous programming is also very important for modern app. I use Kotlin Coroutine to manage ansynchronous task. Coroutine let you write asynchronous code in synchronous way which is easy to read and understand. It lets you run a block of code (ex: network request) in a particular thread. Also get rid of boilerplate code.
+Capstone news app is an app I create during Kodeco 2022 Android Bootcamp. The main purpose of the app is to get the news from public [NewsAPI](https://newsapi.org/) and present it to the user.
 
-room also works well with coroutine
+I am using MVVM as the app architecture. MVVM is the most famous architecture currently for Android app development. It is suitable for a larger project, future scalability, and code testability since it has a clear separation of responsibility in each layer(Model, View, and ViewModel layers). For the view, I am using pure Activity with XML layout. I also adopt the Compose UI to the app, a new way of building modern UI in Android.
 
-About the App
+While fetching the remote API I use Retrofit, a type-safe REST client for Android. The advantage of using Retrofit is it automatically serializes the JSON response and also works well with other popular converters, for example, Gson and Moshi. Here I am using Moshi. Retrofit handles threading automatically and works well with Kotlin Coroutine (support suspend function).
 
-what
-when
-why
-where
-who
+Asynchronous programming is also very important for the modern app. I use Kotlin Coroutine to manage asynchronous tasks. Coroutine let you write asynchronous code in a synchronous way that is easy to read and understand. It lets you run a block of code (ex: network request) in a particular thread without blocking the UI thread.
+
+For data persistence, I am using Room as the single source of truth. Room is an abstract layer on top of SQLite and works well with Coroutine.
+
+Since the app may have dependencies, for example, ViewModel may have a dependency on the repository, and the repository may have dependencies on remote API and local database. This is where Hilt comes into play. Hilt is a dependency injection library built on top of Dagger and is supported by Google. It lets developers write less boilerplate code and makes the app easier to test.
+
+Testing is a very important part of the app development process. You want to make sure your code works well before releasing it to the public. This is also true when you are working on a large project with different teams. You do not want others to debug your code and waste everyone's valuable time.For testing, I am using MockK, a mocking library for Kotlin, for unit testing. Espresso for UI testing.
 
 add app image
 
@@ -38,11 +40,11 @@ If you are aiming for larger project, future scalability and better testing. MVV
 
 ### Mode-View-ViewModel(MVVM)
 
-MVVM's main purpose is to achieve separation of concern through clear distinction bewteen the roles of each of it's layers. Which further solves the issue in MVC and MVP.
+MVVM's main purpose is to achieve separation of concern through clear distinction between the roles of each of it's layers. Which further solves the issue in MVC and MVP.
 
 #### View
 
-Display UI information to the user usually represent as **Activity** and **Fragment**. It's main responsibility is to _obeserve_ one or more ViewModels to update the UI accordingly.
+Display UI information to the user usually represent as **Activity** and **Fragment**. It's main responsibility is to _observe_ one or more ViewModels to update the UI accordingly.
 
 #### Model
 
@@ -52,7 +54,15 @@ Retrieves information from your data source(local database, ex: **Room** or remo
 
 The ViewModel is the centerpiece of MVVM. It has all the business logic in it. ViewModel retrieves necessary information from the Model and applies operations to it(adapt information View needs to display) then expose it to the **View**.
 
-Here I am using [**ViewModel**](https://developer.android.com/topic/libraries/architecture/viewmodel) which is an Android Architecture Component(part of Android Jetpack) to represent the ViewModel layer of MVVM. The ViewModel class is specially designed to manage and store information in a lifecycle-aware manner. This means that the data stored inside it can survive configuration/lifecycle changes like screen rotations.
+Here I am using [**ViewModel**](https://developer.android.com/topic/libraries/architecture/viewmodel) which is an Android Architecture Component(AAC, part of Android Jetpack) to represent the ViewModel layer of MVVM. The ViewModel class is specially designed to manage and store information in a lifecycle-aware manner. This means that the data stored inside it can survive configuration/lifecycle changes like screen rotations.
+
+benefits:
+
+- Survives config changes: longer lifetime than the screen
+- Jetpack integration
+  - Jetpack Navigation: ViewModel is cached when the destination is in the back stack. Destroyed when it's not.
+- Other libraries
+  - Hilt - easy injects with `@HiltViewModel`
 
 ### How does MVVM solves the issue in MVC and MVP?
 
@@ -62,7 +72,7 @@ What is **Binder**?
 
 In Android you usually communicate data(state) between View and ViewModel with **Observables**, using library such as **LiveData**, **RxJava** or **DataBinding**. Here I am using **LiveData**. This is also known as **Binder** which decouple View from ViewModel. In other words Views can have a reference to ViewModels, but ViewModels have no information about the Views.
 
-### MVVM advatages and disadvatage:
+### MVVM advantages and disadvantage:
 
 MVVM has better separation of concern, makes the code easier to test and easy to scale overtime. However, the downside is it may be too complex for a simple UI project.
 
@@ -94,11 +104,11 @@ Usually contains three type of classes:
 
 - Entities: represent the object that you want to store into the database. You define each Room entity as a class(data class) that is annotated with `@Entity` and must have a field annotated with `@PrimaryKey` as unique identifier for each entity.
 - Data access objects: also known as DAOs. The DAO implements CRUD (Create-Read-Update-Delete) operations to database.
-- Databases: where Room generate the approapriate classes and methods. Room also take care of the vesioning of the database and also migrations if developers update the database.
+- Databases: where Room generate the appropriate classes and methods. Room also take care of the versioning of the database and also migrations if developers update the database.
 
 ## Dependency Injection(DI)
 
-benifit of DI?
+benefit of DI?
 why Hilt?
 Hilt
 
@@ -110,7 +120,7 @@ interoperability with xml
 
 Using MockK for unit test.
 
-UI test: Expresso
+UI test: Espresso
 
 ## Future work:
 
