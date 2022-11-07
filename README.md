@@ -6,9 +6,8 @@ Capstone news app is an app I create during Kodeco 2022 Android Bootcamp. The ma
 
 ## Screenshots
 
-![alt text](/images/screenshots/screenshot_1.png 'Screen shot of Capstone News App')
-![alt text](/images/screenshots/screenshot_1_rs.png 'Screen shot of Capstone News App')
 <img src="/images/screenshots/screenshot_1.png" alt="Screen shot of Capstone News App" height="480"/>
+<img src="/images/screenshots/screenshot_3.png" alt="Screen shot of Capstone News App" height="480"/>
 
 ## Architecture
 
