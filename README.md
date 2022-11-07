@@ -1,6 +1,7 @@
 # Capstone News App
 
 ![alt text](/images/screenshots/screenshot_1.png 'Screen shot of Capstone News App')
+![alt text](/images/screenshots/screenshot_1_rs.png 'Screen shot of Capstone News App')
 
 # About
 
