@@ -7,6 +7,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -63,7 +65,7 @@ class NewsDetailActivity : AppCompatActivity() {
     fun TitleText(title: String = "") {
         Text(
             text = title,
-            modifier = Modifier.padding(8.dp),
+            modifier = Modifier.padding(8.dp).semantics { contentDescription= "title" },
             color = Color.White,
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
