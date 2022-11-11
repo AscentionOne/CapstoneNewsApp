@@ -10,8 +10,8 @@ import com.kenchen.capstonenewsapp.model.Source
 interface SourceDao {
 
     @Query("SELECT * FROM source")
-    fun getSources():List<Source>
+    suspend fun getSources():List<Source>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addSources(sources:List<Source>)
+    suspend fun addSources(sources:List<Source>)
 }
