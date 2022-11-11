@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
 
         // setting up adapter
-        binding.newsListRecyclerview.adapter = adapter
+        binding.newsListRecyclerView.adapter = adapter
 
         val queryTextListener = object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -146,12 +146,12 @@ class MainActivity : AppCompatActivity() {
         when (state) {
             NewsLoadingState.LOADING -> {
                 binding.newsLoadingErrorTextView.gone()
-                binding.newsListRecyclerview.gone()
+                binding.newsListRecyclerView.gone()
                 binding.loadingProgressBar.visible()
             }
             NewsLoadingState.LOADED -> { // Ready
                 binding.loadingProgressBar.gone()
-                binding.newsListRecyclerview.visible()
+                binding.newsListRecyclerView.visible()
             }
             NewsLoadingState.ERROR -> {
                 binding.loadingProgressBar.gone()

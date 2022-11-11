@@ -7,6 +7,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -14,6 +17,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.Observer
 import androidx.work.*
 import com.bumptech.glide.Glide
+import com.kenchen.capstonenewsapp.R
 import com.kenchen.capstonenewsapp.databinding.ActivityNewsDetailBinding
 import com.kenchen.capstonenewsapp.model.Article
 import com.kenchen.capstonenewsapp.ui.MainActivity
@@ -61,9 +65,13 @@ class NewsDetailActivity : AppCompatActivity() {
     @Composable
     @Preview
     fun TitleText(title: String = "") {
+
+        val titleContentDescription = stringResource(id = R.string.news_title_description)
         Text(
             text = title,
-            modifier = Modifier.padding(8.dp),
+            modifier = Modifier
+                .padding(8.dp)
+                .semantics { contentDescription = titleContentDescription },
             color = Color.White,
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
