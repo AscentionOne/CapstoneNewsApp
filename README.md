@@ -8,7 +8,7 @@ This app is created in **Kotlin** combined with **View-based** and **Compose UIs
 
 ## Screenshots
 
-<img src="/images/screenshots/screenshot_1.png" alt="Screen shot of Capstone News App" height="480"/><img src="/images/screenshots/screenshot_3.png" alt="Screen shot of Capstone News App" height="480" style="margin-left: 2em;"/>
+<img src="/images/screenshots/screenshot_1.png" alt="Screen shot of Capstone News App" height="480"/><img src="/images/screenshots/screenshot_3.png" alt="Screen shot of Capstone News App" height="480" style="margin-left: 3em;"/>
 
 ## 🏠 Architecture
 
