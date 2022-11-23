@@ -2,33 +2,33 @@
 
 **Capstone news** app is an app I create during **Kodeco 2022 Android Bootcamp**. This app is to illustrate what I had learned though out the Bootcamp. **Capstone news** gets the news from public [NewsAPI](https://newsapi.org/) and present it to the user.
 
-This app is created in Kotlin combined with View-based and Compose UIs.
+This app is created in **Kotlin** combined with **View-based** and **Compose UIs**.
 
 # Feature
 
 ## Screenshots
 
-<img src="/images/screenshots/screenshot_1.png" alt="Screen shot of Capstone News App" height="480"/><img src="/images/screenshots/screenshot_3.png" alt="Screen shot of Capstone News App" height="480"/>
+<img src="/images/screenshots/screenshot_1.png" alt="Screen shot of Capstone News App" height="480"/><img src="/images/screenshots/screenshot_3.png" alt="Screen shot of Capstone News App" height="480" style="margin-left: 2em;"/>
 
 ## 🏠 Architecture
 
-I am using MVVM as the app architecture. MVVM is the most famous architecture currently for Android app development. It is suitable for a larger project, future scalability, and code testability since it has a clear separation of responsibility in each layer(Model, View, and ViewModel layers).
+I am using MVVM as the app architecture. MVVM is the most famous architecture currently for Android app development. It is suitable for a larger project, future scalability, and code testability since it has a clear separation of responsibility in each layer(Model, View, and ViewModel layers). This app also follows the [official architecture guidance](https://developer.android.com/topic/architecture) from Android.
 
 ## ✨ UI
 
-For the UI, I am combining View-based UIs and Compose UI. The purpose is to practice how to migrate and transits to Compose from traditional Views. Compose is a new way of building modern UI in Android. Compose have interoperability APIs to let developers add Compose to View-based design easier. For the Views, I am using pure Activity with XML layout.
+For the UI, I am combining View-based UIs and Compose UI. The purpose is to practice how to migrate and transition to Compose from traditional Views. Compose is a new way of building modern UI in Android. Compose have interoperability APIs to let developers add Compose to View-based design easier. For the Views, I am using pure Activity with XML layout.
 
 ## 🌐 Networking
 
-While fetching the news from remote API I use `Retrofit`, a type-safe REST client for Android. The advantage of using Retrofit is it automatically serializes the JSON response and works well with other popular converters, for example, `Gson` and `Moshi`. Here I am using `Moshi`. Moreover, it removes lots of boilerplate code when implementing network requests. Retrofit handles threading automatically and also works well with Kotlin Coroutine (support `suspend` function).
+While fetching the news from remote API I use `Retrofit`, a type-safe REST client for Android. The advantage of using Retrofit is it automatically serializes the JSON response and works well with other popular converters, for example, `Gson` and `Moshi`. Here I am using `Moshi`. Moreover, it removes lots of boilerplate code when implementing network requests. Retrofit handles threading automatically and also works well with Kotlin Coroutines (support `suspend` function).
 
-## 🎠 Kotlin Coroutine
+## 🎠 Kotlin Coroutines
 
-Asynchronous programming is also very important for the modern app. I use Kotlin Coroutine to manage asynchronous tasks. Coroutine let you write asynchronous code in a synchronous way that is easy to read and understand. It lets you run a block of code (ex: network request) in a particular thread without blocking the UI thread(Main thread).
+Asynchronous programming is also very important for the modern app. I use Kotlin Coroutines to manage asynchronous tasks. Coroutines let you write asynchronous code in a synchronous way that is easy to read and understand. It lets you run a block of code (ex: network request) in a particular thread without blocking the UI thread(Main thread).
 
 ## 📚 Data Persistence
 
-For local database, I am using Room as the single source of truth. Room is an abstract layer on top of SQLite and also works well with Coroutine. It is also part of Android Jetpack architecture components.
+For local database, I am using Room as the single source of truth. Room is an abstract layer on top of SQLite and also works well with Coroutines. It is also part of Android Jetpack architecture components.
 
 ## 💉 Dependency Injection
 
