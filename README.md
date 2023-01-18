@@ -42,9 +42,9 @@ Testing is a very important part of the app development process. You want to mak
 
 **UI testing**: Espresso is used for View-based UI testing, here in the app is Activity. For testing Compose UI, Compose provides its own testing library and is interoperable with Espresso.
 
-## Future work:
+## 🔮 Future work:
 
-- Migrate the UIs to use pure Compose UIs
+- ~~Migrate the UIs to use pure Compose UIs~~ -> It's here! 🎉 [Capstone News App Compose](https://github.com/AscentionOne/CapstoneNewsApp-Compose)
 - Add more functionalities. For example:
   - Able to bookmark and favorite news articles
   - Has user settings page
