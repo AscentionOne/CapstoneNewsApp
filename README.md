@@ -8,7 +8,7 @@ This app is created in **Kotlin** combined with **View-based** and **Compose UIs
 
 ## Screenshots
 
-<img src="/images/screenshots/screenshot_1.png" alt="Screen shot of Capstone News App" height="480"/><img src="/images/screenshots/screenshot_3.png" alt="Screen shot of Capstone News App" height="480" style="margin-left: 2em;"/>
+<img src="/images/screenshots/screenshot_1.png" alt="Screen shot of Capstone News App" height="480"/>&emsp;<img src="/images/screenshots/screenshot_3.png" alt="Screen shot of Capstone News App" height="480"/>
 
 ## 🏠 Architecture
 
@@ -42,9 +42,9 @@ Testing is a very important part of the app development process. You want to mak
 
 **UI testing**: Espresso is used for View-based UI testing, here in the app is Activity. For testing Compose UI, Compose provides its own testing library and is interoperable with Espresso.
 
-## Future work:
+## 🔮 Future work:
 
-- Migrate the UIs to use pure Compose UIs
+- ~~Migrate the UIs to use pure Compose UIs~~ -> It's here! 🎉 [Capstone News App Compose](https://github.com/AscentionOne/CapstoneNewsApp-Compose)
 - Add more functionalities. For example:
   - Able to bookmark and favorite news articles
   - Has user settings page
