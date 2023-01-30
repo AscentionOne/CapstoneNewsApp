@@ -1,4 +1,4 @@
-package com.kenchen.capstonenewsapp
+package com.kenchen.capstonenewsapp.ui
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
@@ -8,12 +8,12 @@ import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers
-import com.kenchen.capstonenewsapp.ui.MainActivity
+import com.kenchen.capstonenewsapp.R
 import com.kenchen.capstonenewsapp.ui.newslist.NewsListViewHolder
 import org.junit.Rule
 import org.junit.Test
 
-class MyComposeTest {
+class ComposeTest {
 
     @get:Rule
     val composeTestRule = createAndroidComposeRule<MainActivity>()
