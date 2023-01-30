@@ -26,11 +26,11 @@ While fetching the news from remote API I use `Retrofit`, a type-safe REST clien
 
 Asynchronous programming is also very important for the modern app. I use Kotlin Coroutines to manage asynchronous tasks. Coroutines let you write asynchronous code in a synchronous way that is easy to read and understand. It lets you run a block of code (ex: network request) in a particular thread without blocking the UI thread(Main thread).
 
-## 📚 Data Persistence
+## 📚 Data Persistence - Room
 
 For local database, I am using Room as the single source of truth. Room is an abstract layer on top of SQLite and also works well with Coroutines. It is also part of Android Jetpack architecture components.
 
-## 💉 Dependency Injection
+## 💉 Dependency Injection - Hilt
 
 Since the app may have dependencies between UI state and data layer. For example, `ViewModel` may have a dependency on the `Repository`, and the Repository may have dependencies on remote API and local database. This is where Hilt comes into play. Hilt is a dependency injection library built on top of Dagger and is supported by Google. It lets developers write less boilerplate code and makes the app easier to test.
 
